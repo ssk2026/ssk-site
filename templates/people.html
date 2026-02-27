@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- ===== 서브 비주얼 영역 ===== -->
+<section class="sub-hero">
+    <div class="sub-hero-overlay"></div>
+    <div class="sub-hero-content">
+        <h1>연구단 소개</h1>
+        <p>SSK 생성형 AI 역기능 연구단</p>
+    </div>
+</section>
+
+<!-- ===== 본문 영역 ===== -->
+<section class="subpage-wrap">
+    <div class="container subpage-container">
+
+        <!-- 🔵 왼쪽 사이드 메뉴 -->
+        <aside class="side-menu">
+            <h3 class="side-title">소개</h3>
+            <ul>
+                <li>
+                    <a href="{% url 'overview' %}">연구과제 소개</a>
+                </li>
+                <li class="active">
+                    <a href="{% url 'people' %}">연구진 소개</a>
+                    <ul class="side-sub">
+                       <li><a href="{% url 'senior' %}">참여연구원</a></li>
+                       <li><a href="{% url 'fulltime' %}">전임연구원</a></li>
+                       <li><a href="{% url 'assistants' %}">연구보조원/기타</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- ⚪ 오른쪽 본문 -->
+        <div class="subpage-content">
+            <h2>연구진 소개</h2>
+            <div class="title-line"></div>
+
+            <p>
+                참여연구원, 전임연구원, 연구보조원 등의 정보가 들어갑니다.
+            </p>
+
+            <!-- 예시 카드 구조 -->
+            <div class="card-grid">
+                <div class="card">
+                    <h4>책임연구원</h4>
+                    <p>홍길동 교수</p>
+                </div>
+
+                <div class="card">
+                    <h4>전임연구원</h4>
+                    <p>김철수 박사</p>
+                </div>
+
+                <div class="card">
+                    <h4>연구보조원</h4>
+                    <p>이영희</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

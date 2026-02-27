@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- 상단 배너 -->
+<section class="sub-hero">
+    <div class="sub-hero-overlay"></div>
+    <div class="sub-hero-content">
+        <h1>연구성과</h1>
+        <p>SSK 생성형 AI 역기능 연구단</p>
+    </div>
+</section>
+
+<section class="subpage-wrap">
+    <div class="container subpage-container">
+
+        <!-- 좌측 사이드 메뉴 -->
+        <aside class="side-menu">
+            <h3 class="side-title">연구성과</h3>
+            <ul class="side-main">
+                <li>
+                    <a href="{% url 'performance_papers' %}">연구논문</a>
+                </li>
+                <li class="active">
+                    <a href="{% url 'performance_briefing' %}">성과브리핑</a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- 우측 본문 -->
+        <div class="subpage-content">
+
+            <!-- 🔙 뒤로가기 버튼 -->
+            <div style="margin-bottom:25px;">
+                <a href="{% url 'performance_briefing' %}?page={{ request.GET.page|default:1 }}"
+                   style="display:inline-block;
+                          padding:8px 18px;
+                          background:#ff7a00;
+                          color:white;
+                          text-decoration:none;
+                          border-radius:4px;
+                          font-size:14px;">
+                    ← 목록으로
+                </a>
+            </div>
+
+            <h2>{{ briefing.title }}</h2>
+            <div class="title-line"></div>
+
+            <div class="briefing-meta" style="margin:15px 0 25px 0;">
+                {{ briefing.author }} |
+                조회 {{ briefing.views }} |
+                {{ briefing.created_at }}
+            </div>
+
+            {% if briefing.image %}
+                <img src="{{ briefing.image.url }}"
+                     style="max-width:100%; margin-bottom:30px;">
+            {% endif %}
+
+            <div style="line-height:1.8; font-size:16px;">
+                {{ briefing.content|linebreaks }}
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

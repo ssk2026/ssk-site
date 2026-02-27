@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<section class="sub-hero">
+    <div class="sub-hero-overlay"></div>
+    <div class="sub-hero-content">
+        <h1>주요행사</h1>
+        <p>SSK 생성형 AI 역기능 연구단</p>
+    </div>
+</section>
+
+<section class="subpage-wrap">
+    <div class="container subpage-container">
+
+        <aside class="side-menu">
+            <h3 class="side-title">주요행사</h3>
+            <ul class="side-main">
+                <li class="active">
+                    <a href="{% url 'events' %}">주요행사</a>
+                </li>
+            </ul>
+        </aside>
+
+        <div class="subpage-content">
+
+            <div style="margin-bottom:25px;">
+                <a href="{% url 'events' %}?page={{ request.GET.page|default:1 }}"
+                   style="padding:8px 18px;
+                          background:#ff7a00;
+                          color:white;
+                          text-decoration:none;
+                          border-radius:4px;">
+                    ← 목록으로
+                </a>
+            </div>
+
+            <h2>{{ event.title }}</h2>
+            <div class="title-line"></div>
+
+            <div class="briefing-meta">
+                {{ event.author }} | 조회 {{ event.views }} | {{ event.created_at }}
+            </div>
+
+            {% if event.images.all %}
+    <div style="margin-top:30px;">
+        {% for img in event.images.all %}
+            <img src="{{ img.image.url }}" style="max-width:100%; margin-bottom:20px;">
+        {% endfor %}
+    </div>
+{% endif %}
+
+            <div style="line-height:1.8;">
+                {{ event.content|linebreaks }}
+            </div>
+<div class="briefing-meta">
+    {% if event.event_date %}
+        행사일: {{ event.event_date }} |
+    {% endif %}
+    조회 {{ event.views }} |
+    {{ event.created_at }}
+</div>
+
+{% if event.attachments.all %}
+<div style="margin-top:40px;">
+    <h4>📎 첨부파일</h4>
+    <ul>
+        {% for file in event.attachments.all %}
+        <li>
+            <a href="{{ file.file.url }}" download>
+                {{ file.file.name|cut:"events/files/" }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<section class="sub-hero">
+    <div class="sub-hero-overlay"></div>
+    <div class="sub-hero-content">
+        <h1>주요행사</h1>
+        <p>SSK 생성형 AI 역기능 연구단</p>
+    </div>
+</section>
+
+<section class="subpage-wrap">
+    <div class="container subpage-container">
+
+        <!-- 사이드 메뉴 -->
+        <aside class="side-menu">
+            <h3 class="side-title">주요행사</h3>
+            <ul class="side-main">
+                <li class="active">
+                    <a href="{% url 'events' %}">주요행사</a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- 콘텐츠 -->
+        <div class="subpage-content">
+
+            <h2>주요행사</h2>
+            <div class="title-line"></div>
+
+
+            <div class="briefing-top">
+
+    <div class="briefing-count">
+        총 <span>{{ total_count }}</span>건이 등록되었습니다.
+    </div>
+
+    <div class="briefing-search">
+        <form method="get">
+            <select name="type">
+                <option value="title" {% if type == "title" %}selected{% endif %}>제목</option>
+                <option value="content" {% if type == "content" %}selected{% endif %}>내용</option>
+            </select>
+            <input type="text" name="q" value="{{ q }}" placeholder="검색어를 입력하세요">
+            <button type="submit">검색</button>
+        </form>
+    </div>
+
+</div>
+            <div class="briefing-count">
+
+            </div>
+
+            {% for event in page_obj %}
+            <div class="briefing-item">
+               <div class="briefing-img">
+    {% for img in event.images.all %}
+        {% if img.is_main %}
+            <img src="{{ img.image.url }}">
+        {% endif %}
+    {% endfor %}
+</div>
+
+                <div class="briefing-info">
+                    <h3>
+                        <a href="{% url 'event_detail' event.id %}?page={{ page_obj.number }}">
+                            {{ event.title }}
+                        </a>
+                    </h3>
+
+                    <div class="briefing-meta">
+                        {{ event.author }} | 조회 {{ event.views }} | {{ event.created_at }}
+                    </div>
+
+                    <p>
+                        {{ event.content|truncatewords:20 }}
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+
+            <!-- 페이지네이션 -->
+            <div class="pagination">
+
+    {% if page_obj.has_previous %}
+        <a href="?page=1&type={{ type }}&q={{ q }}">«</a>
+        <a href="?page={{ page_obj.previous_page_number }}&type={{ type }}&q={{ q }}">‹</a>
+    {% endif %}
+
+    <span class="active">{{ page_obj.number }}</span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}&type={{ type }}&q={{ q }}">›</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}&type={{ type }}&q={{ q }}">»</a>
+    {% endif %}
+
+</div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

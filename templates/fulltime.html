@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- ===== 서브 비주얼 영역 ===== -->
+<section class="sub-hero">
+    <div class="sub-hero-overlay"></div>
+    <div class="sub-hero-content">
+        <h1>연구단 소개</h1>
+        <p>SSK 생성형 AI 역기능 연구단</p>
+    </div>
+</section>
+
+<!-- ===== 본문 영역 ===== -->
+<section class="subpage-wrap">
+    <div class="container subpage-container">
+
+        <!-- 🔵 왼쪽 사이드 메뉴 -->
+        <aside class="side-menu">
+            <h3 class="side-title">소개</h3>
+            <ul class="side-main">
+
+                <li>
+                    <a href="{% url 'overview' %}">연구과제 소개</a>
+                </li>
+
+                <li class="has-sub active">
+                    <a href="{% url 'people' %}">연구진 소개</a>
+
+                    <ul class="side-sub">
+                        <li>
+                            <a href="{% url 'people' %}">참여연구원</a>
+                        </li>
+                        <li class="active">
+                            <a href="{% url 'fulltime' %}">전임연구원</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'assistants' %}">연구보조원/기타</a>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+        </aside>
+
+        <!-- ⚪ 오른쪽 본문 -->
+        <div class="subpage-content">
+            <h2>전임연구원</h2>
+            <div class="title-line"></div>
+
+          <div class="profile-grid compact">
+
+    <!-- 1 -->
+    <div class="profile-card">
+        <div class="profile-left">
+            <img src="{% static 'images/sample1.jpg' %}" class="profile-img">
+        </div>
+        <div class="profile-right">
+            <h3 class="profile-name">조병철</h3>
+            <ul class="profile-info">
+                <li><span>소속</span><br> 동국대학교 사회안전교육원 산하 법심리연구소</li>
+                <li><span>직위</span><br> 전임연구원</li>
+                <li><span>연구분야</span><br> 사회심리학</li>
+                <li><span>Email</span><br> bcj8423@gmail.com</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="profile-card">
+        <div class="profile-left">
+            <img src="{% static 'images/sample2.jpg' %}" class="profile-img">
+        </div>
+        <div class="profile-right">
+            <h3 class="profile-name">김지연</h3>
+            <ul class="profile-info">
+                <li><span>소속</span><br>  동국대학교 사회안전교육원 산하 법심리연구소</li>
+                <li><span>직위</span><br> 전임연구원</li>
+                <li><span>연구분야</span><br> 범죄심리학</li>
+                <li><span>Email</span><br> helkahis@naver.com</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+</section>
+
+{% endblock %}

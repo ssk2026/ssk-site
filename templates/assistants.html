@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<section class="sub-hero">
+    <div class="sub-hero-overlay"></div>
+    <div class="sub-hero-content">
+        <h1>연구단 소개</h1>
+        <p>SSK 생성형 AI 역기능 연구단</p>
+    </div>
+</section>
+
+<section class="subpage-wrap">
+    <div class="container subpage-container">
+
+        <!-- 왼쪽 사이드 -->
+        <aside class="side-menu">
+            <h3 class="side-title">소개</h3>
+            <ul class="side-main">
+
+                <li>
+                    <a href="{% url 'overview' %}">연구과제 소개</a>
+                </li>
+
+                <li class="has-sub active">
+                    <a href="{% url 'people' %}">연구진 소개</a>
+                    <ul class="side-sub">
+                        <li>
+                            <a href="{% url 'people' %}">참여연구원</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'fulltime' %}">전임연구원</a>
+                        </li>
+                        <li class="active">
+                            <a href="{% url 'assistants' %}">연구보조원/기타</a>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+        </aside>
+
+        <!-- 오른쪽 본문 -->
+        <div class="subpage-content">
+            <h2>연구보조원 / 기타</h2>
+            <div class="title-line"></div>
+
+            <div class="profile-grid">
+
+                <div class="profile-card">
+                    <div class="profile-right">
+                        <h3 class="profile-name">김민수</h3>
+                        <ul class="profile-info">
+                            <li><span>소속</span><br> 동국대학교</li>
+                            <li><span>직위</span><br> 연구보조원</li>
+                            <li><span>Email</span><br> minsu@dongguk.edu</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="profile-card">
+                    <div class="profile-right">
+                        <h3 class="profile-name">이서현</h3>
+                        <ul class="profile-info">
+                            <li><span>소속</span><br> 동국대학교</li>
+                            <li><span>직위</span><br> 행정지원</li>
+                            <li><span>Email</span><br> seohyun@dongguk.edu</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

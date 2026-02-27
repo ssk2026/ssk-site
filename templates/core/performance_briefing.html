@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- 상단 배너 -->
+<section class="sub-hero">
+    <div class="sub-hero-overlay"></div>
+    <div class="sub-hero-content">
+        <h1>연구성과</h1>
+        <p>SSK 생성형 AI 역기능 연구단</p>
+    </div>
+</section>
+
+<!-- 본문 -->
+<section class="subpage-wrap">
+    <div class="container subpage-container">
+
+      <aside class="side-menu">
+    <h3 class="side-title">연구성과</h3>
+
+    <ul class="side-main">
+
+        <li class="{% if request.resolver_match.url_name == 'performance_papers' %}active{% endif %}">
+            <a href="{% url 'performance_papers' %}">연구논문</a>
+        </li>
+
+        <li class="{% if request.resolver_match.url_name == 'performance_briefing' %}active{% endif %}">
+            <a href="{% url 'performance_briefing' %}">성과브리핑</a>
+        </li>
+
+    </ul>
+</aside>
+
+
+
+<div class="subpage-content">
+    <h2>성과브리핑</h2>
+    <div class="title-line"></div>
+
+   <div class="briefing-top">
+
+    <div class="briefing-count">
+        총 <span>{{ total_count }}</span>건이 등록되었습니다.
+    </div>
+
+    <div class="briefing-search">
+        <form method="get">
+            <select name="type">
+                <option value="title">제목</option>
+                <option value="content">내용</option>
+            </select>
+            <input type="text" name="q" placeholder="검색어를 입력하세요">
+            <button type="submit">검색</button>
+        </form>
+    </div>
+
+</div>
+
+    {% for briefing in page_obj %}
+    <div class="briefing-item">
+        <div class="briefing-img">
+            {% if briefing.image %}
+                <img src="{{ briefing.image.url }}" alt="">
+            {% endif %}
+        </div>
+
+        <div class="briefing-info">
+            <h3>
+                <a href="{% url 'briefing_detail' briefing.id %}?page={{ page_obj.number }}">
+                     {{ briefing.title }}
+                </a>
+            </h3>
+
+            <div class="briefing-meta">
+                {{ briefing.author }} | {{ briefing.views }} | {{ briefing.created_at }}
+            </div>
+
+            <p>
+                {{ briefing.content|truncatewords:20 }}
+            </p>
+        </div>
+    </div>
+    {% endfor %}
+
+    <!-- 페이지네이션 -->
+    <div class="pagination">
+
+        {% if page_obj.has_previous %}
+            <a href="?page=1">«</a>
+            <a href="?page={{ page_obj.previous_page_number }}">‹</a>
+        {% endif %}
+
+        <span class="active">{{ page_obj.number }}</span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">›</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">»</a>
+        {% endif %}
+
+    </div>
+</div>
+
+
+</section>
+
+{% endblock %}

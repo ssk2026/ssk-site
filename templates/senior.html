@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- ===== 서브 비주얼 영역 ===== -->
+<section class="sub-hero">
+    <div class="sub-hero-overlay"></div>
+    <div class="sub-hero-content">
+        <h1>연구단 소개</h1>
+        <p>SSK 생성형 AI 역기능 연구단</p>
+    </div>
+</section>
+
+<!-- ===== 본문 영역 ===== -->
+<section class="subpage-wrap">
+    <div class="container subpage-container">
+
+        <!-- 🔵 왼쪽 사이드 메뉴 -->
+       <aside class="side-menu">
+    <h3 class="side-title">소개</h3>
+    <ul class="side-main">
+
+        <li>
+            <a href="{% url 'overview' %}">연구과제 소개</a>
+        </li>
+
+        <li class="has-sub active">
+            <a href="{% url 'people' %}">연구진 소개</a>
+
+            <ul class="side-sub">
+                <li class="active">
+                    <a href="{% url 'people' %}">참여연구원</a>
+                </li>
+                <li>
+                    <a href="{% url 'fulltime' %}">전임연구원</a>
+                </li>
+                <li>
+                    <a href="{% url 'assistants' %}">연구보조원/기타</a>
+                </li>
+            </ul>
+        </li>
+
+    </ul>
+</aside>
+
+        <!-- ⚪ 오른쪽 본문 -->
+        <div class="subpage-content">
+            <h2>참여연구원</h2>
+            <div class="title-line"></div>
+
+            <!-- 🔥 카드 영역 -->
+<div class="profile-grid">
+
+    <!-- 1 -->
+    <div class="profile-card">
+        <div class="profile-left">
+            <img src="{% static 'images/sample1.jpg' %}" class="profile-img">
+        </div>
+        <div class="profile-right">
+            <h3 class="profile-name">조은경</h3>
+            <ul class="profile-info">
+                <li><span>소속</span> 동국대학교 경찰사법대학 경찰행정학부</li>
+                <li><span>직위</span> 연구책임자</li>
+                <li><span>연구분야</span> 법심리학</li>
+                <li><span>Email</span> ekjo1@naver.com</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="profile-card">
+        <div class="profile-left">
+            <img src="{% static 'images/sample2.jpg' %}" class="profile-img">
+        </div>
+        <div class="profile-right">
+            <h3 class="profile-name">김연수</h3>
+            <ul class="profile-info">
+                <li><span>소속</span> 동국대학교 미래융합대학 융합보안학과</li>
+                <li><span>직위</span> 공동연구원</li>
+                <li><span>연구분야</span> 범죄예방, 피해자학, 과학치안</li>
+                <li><span>Email</span> 	kimys36@dongguk.edu</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="profile-card">
+        <div class="profile-left">
+            <img src="{% static 'images/sample3.jpg' %}" class="profile-img">
+        </div>
+        <div class="profile-right">
+            <h3 class="profile-name">김한균</h3>
+            <ul class="profile-info">
+                <li><span>소속</span> 한국형사·법무정책연구원</li>
+                <li><span>직위</span> 공동연구원</li>
+                <li><span>연구분야</span> 법학</li>
+                <li><span>Email</span> hankyun@kicj.re.kr</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="profile-card">
+        <div class="profile-left">
+            <img src="{% static 'images/sample4.jpg' %}" class="profile-img">
+        </div>
+        <div class="profile-right">
+            <h3 class="profile-name">이해님</h3>
+            <ul class="profile-info">
+                <li><span>소속</span> 동국대학교 미래융합대학 사회복지상담학과</li>
+                <li><span>직위</span> 공동연구원</li>
+                <li><span>연구분야</span> 아동청소년복지, 사회복지통계 및 조사</li>
+                <li><span>Email</span> hnl22@dgu.ac.kr </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="profile-card">
+        <div class="profile-left">
+            <img src="{% static 'images/sample5.jpg' %}" class="profile-img">
+        </div>
+        <div class="profile-right">
+            <h3 class="profile-name">Kiseong Kuen</h3>
+            <ul class="profile-info">
+                <li><span>소속</span> Griffith University, School of Criminology and Criminal Justice</li>
+                <li><span>직위</span> 공동연구원</li>
+                <li><span>연구분야</span> Criminology and Criminal Justice</li>
+                <li><span>Email</span> k.kuen@griffith.edu.au</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="profile-card">
+        <div class="profile-left">
+            <img src="{% static 'images/sample6.jpg' %}" class="profile-img">
+        </div>
+        <div class="profile-right">
+            <h3 class="profile-name">전주은</h3>
+            <ul class="profile-info">
+                <li><span>소속</span> 동국대학교 경찰사법대학 경찰행정학부</li>
+                <li><span>직위</span> 공동연구원</li>
+                <li><span>연구분야</span> 정보 보호, 인공지능</li>
+                <li><span>Email</span> jueun.jeon@dongguk.edu</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+</section>
+
+{% endblock %}
