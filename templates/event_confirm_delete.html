@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="max-width:600px; margin:100px auto;">
+    <h2>정말 삭제하시겠습니까?</h2>
+    <p>{{ event.title }}</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">삭제</button>
+        <a href="{% url 'event_detail' event.id %}">취소</a>
+    </form>
+</div>
+{% endblock %}

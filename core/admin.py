@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Event, EventImage, EventAttachment
+from .models import Event, EventImage, EventAttachment, Inquiry
 
 
 # 🖼 이미지 Inline
@@ -23,5 +23,19 @@ class EventAttachmentInline(admin.TabularInline):
 class EventAdmin(admin.ModelAdmin):
     inlines = [EventImageInline, EventAttachmentInline]
 
+    # 🔥 추가된 부분
+    list_display = ("title", "type", "event_date", "views")
+    list_filter = ("type", "event_date")
+    search_fields = ("title", "content")
+    ordering = ("-created_at",)
+
 
 admin.site.register(Event, EventAdmin)
+
+
+@admin.register(Inquiry)
+class InquiryAdmin(admin.ModelAdmin):
+    list_display = ("id", "name", "email", "subject", "created_at")
+    search_fields = ("name", "email", "subject", "message")
+    list_filter = ("created_at",)
+    ordering = ("-created_at",)

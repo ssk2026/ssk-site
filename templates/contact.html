@@ -1,8 +1,35 @@
-{% extends 'base.html' %}
-
-{% block title %}문의 | SSK 연구단{% endblock %}
-
+{% extends "base.html" %}
+{% load static %}
 {% block content %}
-    <h1>문의</h1>
-    <p>연락처 및 이메일 정보가 들어갑니다.</p>
+
+<!-- 서브 비주얼 -->
+<section class="sub-hero">
+    <div class="sub-hero-overlay"></div>
+    <div class="sub-hero-content">
+        <h1>문의</h1>
+        <p>SSK 생성형 AI 역기능 연구단</p>
+    </div>
+</section>
+
+<section class="contact-section">
+    <div class="contact-wrapper">
+
+        <div class="contact-form">
+            <h2>문의하기</h2>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <input type="text" name="name" placeholder="이름" required>
+                <input type="email" name="email" placeholder="이메일" required>
+                <input type="text" name="subject" placeholder="제목" required>
+                <textarea name="message" rows="7" placeholder="문의 내용을 입력해주세요." required></textarea>
+
+                <button type="submit">문의 보내기</button>
+            </form>
+        </div>
+
+    </div>
+</section>
+
 {% endblock %}

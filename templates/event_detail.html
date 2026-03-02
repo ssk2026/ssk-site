@@ -61,6 +61,35 @@
     조회 {{ event.views }} |
     {{ event.created_at }}
 </div>
+{% if user.is_staff %}
+<div style="margin-top:15px;">
+    <a href="{% url 'event_update' event.id %}"
+       style="padding:6px 14px;
+              background:#1f3c68;
+              color:white;
+              text-decoration:none;
+              border-radius:4px;
+              margin-right:8px;">
+        ✏ 수정
+    </a>
+
+    <form action="{% url 'event_delete' event.id %}"
+          method="post"
+          style="display:inline;">
+        {% csrf_token %}
+        <button type="submit"
+                style="padding:6px 14px;
+                       background:#c0392b;
+                       color:white;
+                       border:none;
+                       border-radius:4px;
+                       cursor:pointer;">
+            🗑 삭제
+        </button>
+    </form>
+</div>
+{% endif %}
+
 
 {% if event.attachments.all %}
 <div style="margin-top:40px;">

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- ===== SUB HERO ===== -->
+<section class="sub-hero">
+    <div class="sub-hero-overlay"></div>
+    <div class="sub-hero-content">
+        <h1>공지사항</h1>
+        <p>SSK 생성형 AI 역기능 연구단</p>
+    </div>
+</section>
+
+<section class="subpage-wrap">
+    <div class="container">
+
+        <div class="notice-wrapper">
+        <h2 class="page-title">공지사항</h2>
+
+        <div class="notice-top">
+            <p>총 <span>{{ total_count }}</span> 건이 등록되었습니다.</p>
+
+            <form method="get" class="notice-search">
+                <input type="text" name="q" value="{{ q }}">
+                <button type="submit">검색</button>
+            </form>
+        </div>
+
+        <table class="notice-table">
+            <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                    <th>조회수</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for notice in page_obj %}
+                <tr>
+                    <td>{{ notice.id }}</td>
+                    <td class="title">
+                        <a href="#">
+                            {{ notice.title }}
+                        </a>
+                    </td>
+                    <td>{{ notice.author }}</td>
+                    <td>{{ notice.created_at }}</td>
+                    <td>{{ notice.views }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- 페이지네이션 -->
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">«</a>
+                <a href="?page={{ page_obj.previous_page_number }}">‹</a>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                <a href="?page={{ num }}"
+                   class="{% if page_obj.number == num %}active{% endif %}">
+                   {{ num }}
+                </a>
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">›</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">»</a>
+            {% endif %}
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

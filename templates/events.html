@@ -47,6 +47,11 @@
             <button type="submit">검색</button>
         </form>
     </div>
+ {% if user.is_staff %}
+    <div class="briefing-write">
+        <a href="{% url 'event_create' %}" class="write-btn">글쓰기</a>
+    </div>
+    {% endif %}
 
 </div>
             <div class="briefing-count">
