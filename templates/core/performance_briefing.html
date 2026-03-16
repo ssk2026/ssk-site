@@ -77,7 +77,7 @@
             </div>
 
             <p>
-                {{ briefing.content|truncatewords:20 }}
+                {{ event.content|striptags|truncatewords:20 }}
             </p>
         </div>
     </div>

@@ -39,3 +39,8 @@ class InquiryAdmin(admin.ModelAdmin):
     search_fields = ("name", "email", "subject", "message")
     list_filter = ("created_at",)
     ordering = ("-created_at",)
+
+class EventImageInline(admin.StackedInline):
+    model = EventImage
+    extra = 1
+    max_num = 1

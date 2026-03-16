@@ -61,11 +61,11 @@
             {% for event in page_obj %}
             <div class="briefing-item">
                <div class="briefing-img">
-    {% for img in event.images.all %}
-        {% if img.is_main %}
-            <img src="{{ img.image.url }}">
-        {% endif %}
-    {% endfor %}
+{% for img in event.images.all %}
+    {% if img.is_main %}
+        <img src="{{ img.image.url }}">
+    {% endif %}
+{% endfor %}
 </div>
 
                 <div class="briefing-info">
@@ -80,7 +80,7 @@
                     </div>
 
                     <p>
-                        {{ event.content|truncatewords:20 }}
+                        {{ event.content|striptags|truncatewords:20 }}
                     </p>
                 </div>
             </div>

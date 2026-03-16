@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 
@@ -9,9 +9,10 @@ urlpatterns = [
 
     # 소개
     path('about/overview/', views.overview, name='overview'),
-    path('about/people/', views.senior_researchers, name='people'),
-    path('about/people/fulltime/', views.fulltime_researchers, name='fulltime'),
-    path('about/people/assistants/', views.assistants, name='assistants'),
+    path('about/people/', views.people, name='people'),
+    path('about/intro/', views.about_intro, name='about_intro'),
+    path('about/organization/', views.about_organization, name='about_organization'),
+
 
     # 연구성과
     path('performance/papers/', views.performance_papers, name='performance_papers'),
@@ -34,4 +35,5 @@ urlpatterns = [
     path('events/create/', views.event_create, name='event_create'),
     path('events/<int:id>/update/', views.event_update, name='event_update'),
     path('events/<int:id>/delete/', views.event_delete, name='event_delete'),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
 ]

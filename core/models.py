@@ -1,4 +1,5 @@
 from django.db import models
+from ckeditor_uploader.fields import RichTextUploadingField
 
 
 class Event(models.Model):
@@ -15,7 +16,7 @@ class Event(models.Model):
     )
 
     title = models.CharField(max_length=200)
-    content = models.TextField()
+    content = RichTextUploadingField()
     event_date = models.DateField(null=True, blank=True)
     author = models.CharField(max_length=50, default="관리자")
     views = models.PositiveIntegerField(default=0)
@@ -35,10 +36,15 @@ class EventImage(models.Model):
         related_name='images'
     )
     image = models.ImageField(upload_to='events/images/')
-    is_main = models.BooleanField(default=False)
+    is_main = models.BooleanField(default=True)
+
+    def save(self, *args, **kwargs):
+        if self.is_main:
+            EventImage.objects.filter(event=self.event, is_main=True).update(is_main=False)
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.event.title} - 이미지"
+        return f"{self.event.title} - 썸네일"
 
 
 class EventAttachment(models.Model):
@@ -62,7 +68,7 @@ class EventView(models.Model):
 
 class Notice(models.Model):
     title = models.CharField("제목", max_length=200)
-    content = models.TextField("내용")
+    content = RichTextUploadingField()
     author = models.CharField("작성자", max_length=50, default="관리자")
     created_at = models.DateField("작성일")
     views = models.PositiveIntegerField("조회수", default=0)

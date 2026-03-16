@@ -31,11 +31,9 @@ def home(request):
 
 def about(request): return render(request, 'about.html')
 def overview(request): return render(request, 'about_overview.html')
+def about_intro(request): return render(request, 'about_intro.html')
+def about_organization(request): return render(request, 'about_organization.html')
 def people(request): return render(request, 'people.html')
-def senior_researchers(request): return render(request, 'senior.html')
-def fulltime_researchers(request): return render(request, 'fulltime.html')
-def assistants(request): return render(request, 'assistants.html')
-def others(request): return render(request, 'others.html')
 def outputs(request): return render(request, 'outputs.html')
 def performance_overview(request): return render(request, 'core/performance_overview.html')
 def performance_papers(request): return render(request, 'core/performance_papers.html')

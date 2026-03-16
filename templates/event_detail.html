@@ -43,16 +43,10 @@
                 {{ event.author }} | 조회 {{ event.views }} | {{ event.created_at }}
             </div>
 
-            {% if event.images.all %}
-    <div style="margin-top:30px;">
-        {% for img in event.images.all %}
-            <img src="{{ img.image.url }}" style="max-width:100%; margin-bottom:20px;">
-        {% endfor %}
-    </div>
-{% endif %}
+        
 
             <div style="line-height:1.8;">
-                {{ event.content|linebreaks }}
+                {{ event.content|safe }}
             </div>
 <div class="briefing-meta">
     {% if event.event_date %}

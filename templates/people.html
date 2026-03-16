@@ -2,68 +2,306 @@
 {% load static %}
 
 {% block content %}
+<style>
+    /* ==========================================
+       1. 가로형 서브 메뉴 (Horizontal Menu) 스타일
+       ========================================== */
+    * { box-sizing: border-box; }
+    body { font-family: 'Pretendard', sans-serif; background-color: #ffffff; color: #333; line-height: 1.6; margin: 0; padding: 0; scroll-behavior: smooth; }
+    
+    .sub-nav-wrap {
+        background-color: #fff; border-bottom: 1px solid #e0e0e0; box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        position: sticky; top: 0; z-index: 100; /* 스크롤 시 상단 고정되도록 sticky 적용 */
+    }
+    .sub-nav-menu { display: flex; justify-content: center; list-style: none; margin: 0; padding: 0; }
+    .sub-nav-menu > li { position: relative; }
+    .sub-nav-menu > li > a {
+        display: block; padding: 20px 40px; font-size: 18px; font-weight: 600; color: #555; text-decoration: none; transition: color 0.3s;
+    }
+    .sub-nav-menu > li.active > a, 
+    .sub-nav-menu > li:hover > a { color: #FF8000; box-shadow: inset 0 -3px 0 #FF8000; }
+    
+    .sub-nav-dropdown {
+        display: none; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+        background: #fff; border: 1px solid #ddd; border-top: 3px solid #FF8000;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05); list-style: none; padding: 0; margin: 0;
+        min-width: 160px; text-align: center;
+    }
+    .sub-nav-menu > li:hover .sub-nav-dropdown { display: block; }
+    .sub-nav-dropdown > li > a {
+        display: block; padding: 12px 15px; color: #666; font-size: 15px; text-decoration: none;
+        border-bottom: 1px solid #f0f0f0; transition: background 0.2s, color 0.2s;
+    }
+    .sub-nav-dropdown > li:last-child > a { border-bottom: none; }
+    .sub-nav-dropdown > li > a:hover, .sub-nav-dropdown > li.active > a { background: #fdfaf6; color: #FF8000; font-weight: 600; }
 
-<!-- ===== 서브 비주얼 영역 ===== -->
+    /* ==========================================
+       2. 연구진 프로필 리스트 컨테이너
+       ========================================== */
+    .people-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 60px 20px 120px;
+    }
+    .section-group {
+        margin-bottom: 90px; /* 각 직군별 간격 */
+        scroll-margin-top: 100px; /* 앵커 이동 시 상단 메뉴에 가려지지 않게 여백 줌 */
+    }
+    .section-title {
+        font-size: 30px; font-weight: 800; color: #222; margin: 0 0 15px 0; 
+        border-left: 6px solid #FF8000; padding-left: 18px;
+    }
+    .title-line { height: 2px; background: #eee; margin-bottom: 40px; }
+
+    /* ==========================================
+       3. 프로필 카드 디자인 (2단 그리드)
+       ========================================== */
+    .profile-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* 한 줄에 2개씩 배치 */
+        gap: 30px;
+    }
+    .profile-card {
+        display: flex;
+        background: #fff;
+        border-radius: 16px;
+        border: 1px solid #eaeaea;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s;
+    }
+    .profile-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(255,128,0,0.08);
+        border-color: #ffcc99;
+    }
+    
+    /* 왼쪽 프로필 이미지 영역 */
+    .profile-left {
+        width: 180px; /* 이미지 너비 */
+        flex-shrink: 0;
+        background: #f8f9fa;
+        display: flex; align-items: center; justify-content: center;
+    }
+    .profile-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    /* 오른쪽 정보 영역 */
+    .profile-right {
+        padding: 30px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .profile-name {
+        font-size: 24px; font-weight: 800; color: #111; margin: 0 0 20px 0;
+    }
+    .profile-info { list-style: none; padding: 0; margin: 0; }
+    
+    /* 항목 정렬 (라벨과 내용) */
+    .info-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 12px;
+        font-size: 16px;
+        color: #555;
+        line-height: 1.5;
+        word-break: keep-all;
+    }
+    .info-item:last-child { margin-bottom: 0; }
+    .info-item span {
+        display: inline-block;
+        font-weight: 700;
+        color: #FF8000;
+        width: 75px; /* 라벨(소속, 직위 등) 고정 너비 */
+        flex-shrink: 0;
+    }
+    .info-item div { flex-grow: 1; }
+
+    /* 프로필 이미지가 없을 때의 대체 아이콘 스타일 */
+    .no-img { color: #ccc; font-size: 60px; }
+</style>
+
 <section class="sub-hero">
     <div class="sub-hero-overlay"></div>
     <div class="sub-hero-content">
-        <h1>연구단 소개</h1>
+        <h1>소개</h1>
         <p>SSK 생성형 AI 역기능 연구단</p>
     </div>
 </section>
 
-<!-- ===== 본문 영역 ===== -->
-<section class="subpage-wrap">
-    <div class="container subpage-container">
+<nav class="sub-nav-wrap">
+    <ul class="sub-nav-menu">
+    <li class="{% if request.resolver_match.url_name == 'about_intro' %}active{% endif %}">
+            <a href="{% url 'about_intro' %}">연구단 소개</a>
+        </li>
+        <li class="{% if request.resolver_match.url_name == 'overview' %}active{% endif %}">
+            <a href="{% url 'overview' %}">연구과제 소개</a>
+        </li>
+        <li class="{% if request.resolver_match.url_name == 'people' %}active{% endif %}">
+            <a href="{% url 'people' %}">연구진 소개</a>
+        </li>
+        <li class="{% if request.resolver_match.url_name == 'about_org' %}active{% endif %}">
+            <a href="{% url 'about_organization' %}">조직도</a>
+        </li>
+    </ul>
+</nav>
 
-        <!-- 🔵 왼쪽 사이드 메뉴 -->
-        <aside class="side-menu">
-            <h3 class="side-title">소개</h3>
-            <ul>
-                <li>
-                    <a href="{% url 'overview' %}">연구과제 소개</a>
-                </li>
-                <li class="active">
-                    <a href="{% url 'people' %}">연구진 소개</a>
-                    <ul class="side-sub">
-                       <li><a href="{% url 'senior' %}">참여연구원</a></li>
-                       <li><a href="{% url 'fulltime' %}">전임연구원</a></li>
-                       <li><a href="{% url 'assistants' %}">연구보조원/기타</a></li>
+<section class="people-container">
+
+    <div id="participating" class="section-group">
+        <h2 class="section-title">참여연구원</h2>
+        <div class="title-line"></div>
+
+        <div class="profile-grid">
+            <div class="profile-card">
+                <div class="profile-left">
+                    <img src="{% static 'images/sample1.jpg' %}" class="profile-img" alt="조은경">
+                </div>
+                <div class="profile-right">
+                    <h3 class="profile-name">조은경</h3>
+                    <ul class="profile-info">
+                        <li class="info-item"><span>소속</span><div>동국대학교 경찰사법대학 경찰행정학부</div></li>
+                        <li class="info-item"><span>직위</span><div>연구책임자</div></li>
+                        <li class="info-item"><span>연구분야</span><div>법심리학</div></li>
+                        <li class="info-item"><span>Email</span><div>ekjo1@naver.com</div></li>
                     </ul>
-                </li>
-            </ul>
-        </aside>
-
-        <!-- ⚪ 오른쪽 본문 -->
-        <div class="subpage-content">
-            <h2>연구진 소개</h2>
-            <div class="title-line"></div>
-
-            <p>
-                참여연구원, 전임연구원, 연구보조원 등의 정보가 들어갑니다.
-            </p>
-
-            <!-- 예시 카드 구조 -->
-            <div class="card-grid">
-                <div class="card">
-                    <h4>책임연구원</h4>
-                    <p>홍길동 교수</p>
-                </div>
-
-                <div class="card">
-                    <h4>전임연구원</h4>
-                    <p>김철수 박사</p>
-                </div>
-
-                <div class="card">
-                    <h4>연구보조원</h4>
-                    <p>이영희</p>
                 </div>
             </div>
 
-        </div>
+            <div class="profile-card">
+                <div class="profile-left">
+                    <img src="{% static 'images/sample2.jpg' %}" class="profile-img" alt="김연수">
+                </div>
+                <div class="profile-right">
+                    <h3 class="profile-name">김연수</h3>
+                    <ul class="profile-info">
+                        <li class="info-item"><span>소속</span><div>동국대학교 미래융합대학 융합보안학과</div></li>
+                        <li class="info-item"><span>직위</span><div>공동연구원</div></li>
+                        <li class="info-item"><span>연구분야</span><div>범죄예방, 피해자학, 과학치안</div></li>
+                        <li class="info-item"><span>Email</span><div>kimys36@dongguk.edu</div></li>
+                    </ul>
+                </div>
+            </div>
 
-    </div>
-</section>
+            <div class="profile-card">
+                <div class="profile-left">
+                    <img src="{% static 'images/sample3.jpg' %}" class="profile-img" alt="김한균">
+                </div>
+                <div class="profile-right">
+                    <h3 class="profile-name">김한균</h3>
+                    <ul class="profile-info">
+                        <li class="info-item"><span>소속</span><div>한국형사·법무정책연구원</div></li>
+                        <li class="info-item"><span>직위</span><div>공동연구원</div></li>
+                        <li class="info-item"><span>연구분야</span><div>법학</div></li>
+                        <li class="info-item"><span>Email</span><div>hankyun@kicj.re.kr</div></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="profile-card">
+                <div class="profile-left">
+                    <img src="{% static 'images/sample4.jpg' %}" class="profile-img" alt="이해님">
+                </div>
+                <div class="profile-right">
+                    <h3 class="profile-name">이해님</h3>
+                    <ul class="profile-info">
+                        <li class="info-item"><span>소속</span><div>동국대학교 미래융합대학 사회복지상담학과</div></li>
+                        <li class="info-item"><span>직위</span><div>공동연구원</div></li>
+                        <li class="info-item"><span>연구분야</span><div>아동청소년복지, 사회복지통계 및 조사</div></li>
+                        <li class="info-item"><span>Email</span><div>hnl22@dgu.ac.kr</div></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="profile-card">
+                <div class="profile-left">
+                    <img src="{% static 'images/sample5.jpg' %}" class="profile-img" alt="Kiseong Kuen">
+                </div>
+                <div class="profile-right">
+                    <h3 class="profile-name">Kiseong Kuen</h3>
+                    <ul class="profile-info">
+                        <li class="info-item"><span>소속</span><div>Griffith University, School of Criminology and Criminal Justice</div></li>
+                        <li class="info-item"><span>직위</span><div>공동연구원</div></li>
+                        <li class="info-item"><span>연구분야</span><div>Criminology and Criminal Justice</div></li>
+                        <li class="info-item"><span>Email</span><div>k.kuen@griffith.edu.au</div></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="profile-card">
+                <div class="profile-left">
+                    <img src="{% static 'images/sample6.jpg' %}" class="profile-img" alt="전주은">
+                </div>
+                <div class="profile-right">
+                    <h3 class="profile-name">전주은</h3>
+                    <ul class="profile-info">
+                        <li class="info-item"><span>소속</span><div>동국대학교 경찰사법대학 경찰행정학부</div></li>
+                        <li class="info-item"><span>직위</span><div>공동연구원</div></li>
+                        <li class="info-item"><span>연구분야</span><div>정보 보호, 인공지능</div></li>
+                        <li class="info-item"><span>Email</span><div>jueun.jeon@dongguk.edu</div></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div> <div id="fulltime" class="section-group">
+        <h2 class="section-title">전임연구원</h2>
+        <div class="title-line"></div>
+
+        <div class="profile-grid">
+            <div class="profile-card">
+                <div class="profile-left">
+                    <img src="{% static 'images/sample1.jpg' %}" class="profile-img" alt="조병철">
+                </div>
+                <div class="profile-right">
+                    <h3 class="profile-name">조병철</h3>
+                    <ul class="profile-info">
+                        <li class="info-item"><span>소속</span><div>동국대학교 사회안전교육원 산하 법심리연구소</div></li>
+                        <li class="info-item"><span>직위</span><div>전임연구원</div></li>
+                        <li class="info-item"><span>연구분야</span><div>사회심리학</div></li>
+                        <li class="info-item"><span>Email</span><div>bcj8423@gmail.com</div></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="profile-card">
+                <div class="profile-left">
+                    <img src="{% static 'images/sample2.jpg' %}" class="profile-img" alt="김지연">
+                </div>
+                <div class="profile-right">
+                    <h3 class="profile-name">김지연</h3>
+                    <ul class="profile-info">
+                        <li class="info-item"><span>소속</span><div>동국대학교 사회안전교육원 산하 법심리연구소</div></li>
+                        <li class="info-item"><span>직위</span><div>전임연구원</div></li>
+                        <li class="info-item"><span>연구분야</span><div>범죄심리학</div></li>
+                        <li class="info-item"><span>Email</span><div>helkahis@naver.com</div></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div> <div id="admin" class="section-group">
+        <h2 class="section-title">행정 직원</h2>
+        <div class="title-line"></div>
+
+        <div class="profile-grid">
+            <div class="profile-card">
+                <div class="profile-left no-img">
+                    👤
+                </div>
+                <div class="profile-right">
+                    <h3 class="profile-name">최우제</h3>
+                    <ul class="profile-info">
+                        <li class="info-item"><span>소속</span><div>동국대학교</div></li>
+                        <li class="info-item"><span>직위</span><div>행정지원</div></li>
+                        <li class="info-item"><span>Email</span><div>ujae2000@gmail.com</div></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div> </section>
 
 {% endblock %}
