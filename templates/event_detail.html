@@ -1,39 +1,54 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 {% load static %}
 
 {% block content %}
 
-<section class="sub-hero">
+<section class="sub-hero {% if event.type == 'briefing' %}sub-hero--performance{% else %}sub-hero--events{% endif %}">
     <div class="sub-hero-overlay"></div>
     <div class="sub-hero-content">
-        <h1>주요행사</h1>
-        <p>SSK 생성형 AI 역기능 연구단</p>
+        <h1>{% if event.type == "briefing" %}연구성과{% else %}주요 행사{% endif %}</h1>
     </div>
 </section>
 
+{% if event.type == "briefing" %}
+<nav class="sub-nav-wrap">
+    <ul class="sub-nav-menu">
+        <li>
+            <a href="{% url 'performance_business_plan' %}">연구계획서</a>
+        </li>
+        <li>
+            <a href="{% url 'performance_papers' %}">학술 논문 및 저서</a>
+        </li>
+        <li class="active">
+            <a href="{% url 'performance_briefing' %}">학술대회 발표</a>
+        </li>
+    </ul>
+</nav>
+{% else %}
+<nav class="sub-nav-wrap">
+    <ul class="sub-nav-menu">
+        <li class="active">
+            <a href="{% url 'events' %}">주요 행사</a>
+        </li>
+    </ul>
+</nav>
+{% endif %}
+
 <section class="subpage-wrap">
-    <div class="container subpage-container">
-
-        <aside class="side-menu">
-            <h3 class="side-title">주요행사</h3>
-            <ul class="side-main">
-                <li class="active">
-                    <a href="{% url 'events' %}">주요행사</a>
-                </li>
-            </ul>
-        </aside>
-
-        <div class="subpage-content">
-
+    <div class="container">
+        <div class="subpage-content subpage-content--full">
             <div style="margin-bottom:25px;">
-                <a href="{% url 'events' %}?page={{ request.GET.page|default:1 }}"
-                   style="padding:8px 18px;
-                          background:#ff7a00;
-                          color:white;
-                          text-decoration:none;
-                          border-radius:4px;">
-                    ← 목록으로
+                {% if event.type == "briefing" %}
+                <a href="{% url 'performance_briefing' %}?page={{ request.GET.page|default:1 }}"
+                   style="padding:8px 18px; background:#ff7a00; color:white; text-decoration:none; border-radius:4px;">
+                    목록으로
                 </a>
+                {% else %}
+                <a href="{% url 'events' %}?page={{ request.GET.page|default:1 }}"
+                   style="padding:8px 18px; background:#ff7a00; color:white; text-decoration:none; border-radius:4px;">
+                    목록으로
+                </a>
+                {% endif %}
             </div>
 
             <h2>{{ event.title }}</h2>
@@ -43,64 +58,33 @@
                 {{ event.author }} | 조회 {{ event.views }} | {{ event.created_at }}
             </div>
 
-        
-
             <div style="line-height:1.8;">
                 {{ event.content|safe }}
             </div>
-<div class="briefing-meta">
-    {% if event.event_date %}
-        행사일: {{ event.event_date }} |
-    {% endif %}
-    조회 {{ event.views }} |
-    {{ event.created_at }}
-</div>
-{% if user.is_staff %}
-<div style="margin-top:15px;">
-    <a href="{% url 'event_update' event.id %}"
-       style="padding:6px 14px;
-              background:#1f3c68;
-              color:white;
-              text-decoration:none;
-              border-radius:4px;
-              margin-right:8px;">
-        ✏ 수정
-    </a>
 
-    <form action="{% url 'event_delete' event.id %}"
-          method="post"
-          style="display:inline;">
-        {% csrf_token %}
-        <button type="submit"
-                style="padding:6px 14px;
-                       background:#c0392b;
-                       color:white;
-                       border:none;
-                       border-radius:4px;
-                       cursor:pointer;">
-            🗑 삭제
-        </button>
-    </form>
-</div>
-{% endif %}
+            <div class="briefing-meta">
+                {% if event.event_date %}
+                행사일: {{ event.event_date }} |
+                {% endif %}
+                조회 {{ event.views }} |
+                {{ event.created_at }}
+            </div>
 
-
-{% if event.attachments.all %}
-<div style="margin-top:40px;">
-    <h4>📎 첨부파일</h4>
-    <ul>
-        {% for file in event.attachments.all %}
-        <li>
-            <a href="{{ file.file.url }}" download>
-                {{ file.file.name|cut:"events/files/" }}
-            </a>
-        </li>
-        {% endfor %}
-    </ul>
-</div>
-{% endif %}
+            {% if event.attachments.all %}
+            <div style="margin-top:40px;">
+                <h4>첨부파일</h4>
+                <ul>
+                    {% for file in event.attachments.all %}
+                    <li>
+                        <a href="{{ file.file.url }}" download>
+                            {{ file.file.name|cut:"events/files/" }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
         </div>
-
     </div>
 </section>
 

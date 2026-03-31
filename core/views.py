@@ -4,43 +4,81 @@ from django.db.models import Q, Prefetch
 from django.utils import timezone
 from datetime import timedelta
 from django.contrib.admin.views.decorators import staff_member_required
+from django.conf import settings
+from pathlib import Path
+from urllib.parse import quote
 
 from .models import Event, EventImage, EventView, Notice, Inquiry
 from .forms import EventForm
 
 
 # =========================
-# 홈
+# ??
 # =========================
 
 def home(request):
-    main_images = EventImage.objects.filter(is_main=True)
 
+    # ??됰선嚥???????????筌왖
+    hero_images = EventImage.objects.filter(is_main=True).order_by('-id')[:3]
+
+    # ????롫뼊 筌ㅼ뮄???깃텢 燁삳?諭??
+    main_images = EventImage.objects.filter(is_main=True)
     latest_events = Event.objects.prefetch_related(
         Prefetch('images', queryset=main_images, to_attr='main_image')
-    ).order_by('-created_at')[:2]
+    ).filter(type='event').order_by('-created_at')[:2]
+
+    # ????롫뼊 ??용뮞??筌뤴뫖以??
+    recent_events = Event.objects.filter(type='event').order_by('-created_at')[:5]
+    recent_notices = Notice.objects.all().order_by('-id')[:5]
 
     return render(request, 'home.html', {
-        'latest_events': latest_events
+        'latest_events': latest_events,
+        'hero_images': hero_images,
+        'recent_events': recent_events,
+        'recent_notices': recent_notices,
     })
 
-
 # =========================
-# 정적 페이지
+# ?類ㅼ읅 ??륁뵠筌왖
 # =========================
 
 def about(request): return render(request, 'about.html')
 def overview(request): return render(request, 'about_overview.html')
 def about_intro(request): return render(request, 'about_intro.html')
-def about_organization(request): return render(request, 'about_organization.html')
 def people(request): return render(request, 'people.html')
 def outputs(request): return render(request, 'outputs.html')
 def performance_overview(request): return render(request, 'core/performance_overview.html')
 def performance_papers(request): return render(request, 'core/performance_papers.html')
 
 
+def performance_business_plan(request):
+    proposals_dir = Path(settings.MEDIA_ROOT) / "proposals"
+    proposal_file_url = ""
+
+    if proposals_dir.exists():
+        proposal_files = sorted(
+            [f for f in proposals_dir.iterdir() if f.is_file() and f.suffix.lower() == ".pdf"],
+            key=lambda p: p.name
+        )
+        if proposal_files:
+            proposal_file_url = f"{settings.MEDIA_URL}proposals/{quote(proposal_files[0].name)}"
+
+    try:
+        initial_page = int(request.GET.get("page", 1))
+    except (TypeError, ValueError):
+        initial_page = 1
+
+    if initial_page < 1:
+        initial_page = 1
+
+    return render(request, "core/performance_business_plan.html", {
+        "proposal_file_url": proposal_file_url,
+        "initial_page": initial_page,
+    })
+
+
 # =========================
-# 문의하기
+# ?얜챷???띾┛
 # =========================
 
 def contact(request):
@@ -57,7 +95,7 @@ def contact(request):
 
 
 # =========================
-# 주요행사 (type='event')
+# 雅뚯눘???깃텢 (type='event')
 # =========================
 
 def event_list(request):
@@ -88,7 +126,7 @@ def event_list(request):
 
 
 # =========================
-# 성과브리핑 (type='briefing')
+# ?源껊궢?됰슢???(type='briefing')
 # =========================
 
 def performance_briefing(request):
@@ -115,7 +153,7 @@ def performance_briefing(request):
 
 
 # =========================
-# 상세페이지 (공통)
+# ?怨멸쉭??륁뵠筌왖 (?⑤벏??
 # =========================
 
 def get_client_ip(request):
@@ -144,7 +182,7 @@ def event_detail(request, id):
 
 
 # =========================
-# 공지사항
+# ?⑤벊???鍮?
 # =========================
 
 def notice_list(request):
@@ -163,9 +201,17 @@ def notice_list(request):
         'q': q,
     })
 
+def notice_detail(request, id):
+    notice = get_object_or_404(Notice, id=id)
 
+    notice.views += 1
+    notice.save()
+
+    return render(request, 'notice_detail.html', {
+        'notice': notice
+    })
 # =========================
-# 관리자 전용 CRUD
+# ?온?귐딆쁽 ?袁⑹뒠 CRUD
 # =========================
 
 @staff_member_required

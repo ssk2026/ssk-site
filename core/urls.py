@@ -1,37 +1,37 @@
 from django.urls import path, include
+from django.views.generic.base import RedirectView
 from . import views
 
 
 urlpatterns = [
+    path('favicon.ico', RedirectView.as_view(url='/static/images/remove_background.png', permanent=True)),
 
-    # 홈
+    # Home
     path('', views.home, name='home'),
 
-    # 소개
+    # About
     path('about/overview/', views.overview, name='overview'),
     path('about/people/', views.people, name='people'),
     path('about/intro/', views.about_intro, name='about_intro'),
-    path('about/organization/', views.about_organization, name='about_organization'),
 
-
-    # 연구성과
+    # Performance
     path('performance/papers/', views.performance_papers, name='performance_papers'),
     path('performance/briefing/', views.performance_briefing, name='performance_briefing'),
+    path('performance/business-plan/', views.performance_business_plan, name='performance_business_plan'),
 
-    # 주요행사
+    # Events
     path('events/', views.event_list, name='events'),
     path('events/<int:id>/', views.event_detail, name='event_detail'),
 
-    # 성과브리핑 상세 (event_detail 재사용)
+    # Briefing detail
     path('performance/briefing/<int:id>/', views.event_detail, name='briefing_detail'),
 
-    # 공지사항
+    # Notice / Contact
     path('notice/', views.notice_list, name='notice_list'),
-
-    # 문의
+    path('notice/<int:id>/', views.notice_detail, name='notice_detail'),
     path('contact/', views.contact, name='contact'),
 
-    # 관리자 CRUD
+    # Admin CRUD
     path('events/create/', views.event_create, name='event_create'),
     path('events/<int:id>/update/', views.event_update, name='event_update'),
     path('events/<int:id>/delete/', views.event_delete, name='event_delete'),

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="sub-hero">
+    <div class="sub-hero-overlay"></div>
+    <div class="sub-hero-content">
+        <h1>정보 마당</h1>
+    </div>
+</section>
+
+<nav class="sub-nav-wrap">
+    <ul class="sub-nav-menu">
+        <li class="active">
+            <a href="{% url 'notice_list' %}">공지사항</a>
+        </li>
+        <li>
+            <a href="{% url 'contact' %}">문의</a>
+        </li>
+    </ul>
+</nav>
+
+<section class="subpage-wrap">
+    <div class="container">
+        <div class="subpage-content subpage-content--full">
+            <div style="margin-bottom:25px;">
+                <a href="{% url 'notice_list' %}"
+                   style="padding:8px 18px; background:#ff7a00; color:white; text-decoration:none; border-radius:4px;">
+                    목록으로
+                </a>
+            </div>
+
+            <h2>{{ notice.title }}</h2>
+            <div class="title-line"></div>
+
+            <div class="briefing-meta">
+                {{ notice.author }} | 조회 {{ notice.views }} | {{ notice.created_at }}
+            </div>
+
+            <div style="line-height:1.8; margin-top:25px;">
+                {{ notice.content|safe }}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

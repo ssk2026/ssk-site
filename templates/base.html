@@ -1,70 +1,124 @@
-{% load static %}
+﻿{% load static %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SSK 연구단</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=7">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=18">
+    <style>
+        .main-nav { display: none; }
+        .menu-toggle { display: flex; }
+    </style>
 </head>
-
 <body>
 
-<!-- ================= MAIN HEADER ================= -->
 <header class="main-header">
     <div class="container header-inner">
-
         <div class="brand-line">
-            <a href="{% url 'home' %}" class="brand-link">
-                <span class="univ-name">동국대학교</span>
-                <span class="divider">|</span>
-                <span class="lab-name">SSK 생성형 AI 역기능 연구단</span>
+            <a href="{% url 'home' %}" class="brand-link" aria-label="홈으로 이동">
+                <img src="{% static 'images/remove_background.png' %}" alt="동국대학교 로고" class="brand-logo">
+                <span class="brand-divider"></span>
+                <span class="lab-name">
+                    <span>SSK(한국사회과학)</span>
+                    <span>생성형 AI 사용자 위험 대응 연구단</span>
+                </span>
             </a>
         </div>
 
-        <!-- 네비게이션 -->
-        <nav class="main-nav">
-            <ul class="menu">
-                <li><a href="/">홈</a></li>
-
-                <li class="dropdown">
-                    <a href="{% url 'overview' %}">소개</a>
-                    <ul class="submenu">
-                       <li><a href="{% url 'about_intro' %}">연구단 소개</a></li>
-                       <li><a href="{% url 'overview' %}">연구과제 소개</a></li>
-                       <li><a href="{% url 'people' %}">연구진 소개</a></li>
-                       <li><a href="{% url 'about_organization' %}">조직도</a></li> 
-                    </ul>
-                </li>
-
-                <li class="dropdown">
-                    <a href="{% url 'performance_papers' %}">연구성과</a>
-                    <ul class="submenu">
-                        <li><a href="{% url 'performance_papers' %}">연구논문</a></li>
-                        <li><a href="{% url 'performance_briefing' %}">성과브리핑</a></li>
-                    </ul>
-                </li>
-
-                <li><a href="{% url 'events' %}">주요 행사</a></li>
-                <li><a href="{% url 'notice_list' %}">공지사항</a></li>
-                <li><a href="{% url 'contact' %}">문의</a></li>
-            </ul>
-        </nav>
-
+        <button class="menu-toggle" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobileMenu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </div>
 </header>
 
-<!-- ================= PAGE CONTENT ================= -->
+<div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+<aside class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <button class="menu-close" id="menuClose" type="button" aria-label="메뉴 닫기">&times;</button>
+
+    <ul class="mobile-menu-list">
+        <li>
+            <a href="{% url 'overview' %}">소개</a>
+            <ul>
+                <li><a href="{% url 'overview' %}">비전 및 목표</a></li>
+                <li><a href="{% url 'about_intro' %}">연구단장 인사말</a></li>
+                <li><a href="{% url 'people' %}">연구단 구성</a></li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="{% url 'performance_business_plan' %}">연구성과</a>
+            <ul>
+                <li><a href="{% url 'performance_business_plan' %}">연구계획서</a></li>
+                <li><a href="{% url 'performance_papers' %}">학술 논문 및 저서</a></li>
+                <li><a href="{% url 'performance_briefing' %}">학술대회 발표</a></li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="{% url 'events' %}">주요 행사</a>
+        </li>
+
+        <li>
+            <a href="{% url 'notice_list' %}">정보마당</a>
+            <ul>
+                <li><a href="{% url 'notice_list' %}">공지사항</a></li>
+                <li><a href="{% url 'contact' %}">문의</a></li>
+            </ul>
+        </li>
+    </ul>
+</aside>
+
 <div class="site-wrap">
     {% block content %}
     {% endblock %}
 </div>
 
-<!-- ================= FOOTER ================= -->
-<div class="footer-bottom">
-    <div class="container">
-        <p>[04620] 서울특별시 중구 필동로 1길30 동국대학교 경찰사법대학 경찰행정학부 법심리연구소</p>
+<footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-right">
+            <p><strong>[04620]</strong> 서울특별시 중구 필동로 1길 30 동국대학교 경찰사법대학 경찰행정학부 법심리연구소</p>
+            <p>E-mail: (미정)</p>
+            <p>Copyright &copy; SSK Research Group. All rights reserved.</p>
+        </div>
     </div>
-</div>
+</footer>
 
+<script>
+    (function () {
+        const menuButton = document.querySelector('.menu-toggle');
+        const menu = document.getElementById('mobileMenu');
+        const overlay = document.getElementById('mobileMenuOverlay');
+        const closeButton = document.getElementById('menuClose');
+
+        if (!menuButton || !menu || !overlay || !closeButton) return;
+
+        function openMenu() {
+            menu.classList.add('active');
+            overlay.classList.add('active');
+            menuButton.setAttribute('aria-expanded', 'true');
+            menu.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            menu.classList.remove('active');
+            overlay.classList.remove('active');
+            menuButton.setAttribute('aria-expanded', 'false');
+            menu.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        menuButton.addEventListener('click', openMenu);
+        closeButton.addEventListener('click', closeMenu);
+        overlay.addEventListener('click', closeMenu);
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') closeMenu();
+        });
+    })();
+</script>
 </body>
 </html>

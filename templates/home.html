@@ -1,54 +1,85 @@
-{% extends 'base.html' %}
+﻿{% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
 
-<!-- ================= HOME HERO ================= -->
-<section class="hero">
-    <div class="hero-overlay"></div>
+<section class="hero hero--home hero--main">
+    {% for img in hero_images %}
+    <div class="hero-slide {% if forloop.first %}active{% endif %}"
+         style="background-image: url('{{ img.image.url }}');">
+        <div class="hero-overlay"></div>
+    </div>
+    {% endfor %}
 
-    <div class="hero-content">
-        <h1>SSK 생성형AI역기능연구단</h1>
-        <p>사용자 관점에서의 생성형AI 역기능연구</p>
+    <div class="hero-main-inner">
+        <div class="hero-main-text">
+            <h1>생성형 AI 사용자 위험 대응 연구단</h1>
+            <p>사용자 관점에서 생성형 AI의 역기능을 연구합니다</p>
+        </div>
+
+        <div class="hero-menu-grid">
+            <a href="{% url 'overview' %}" class="hero-menu-card">
+                <h3>비전 및 목표</h3>
+                <span>+</span>
+            </a>
+
+            <a href="{% url 'people' %}" class="hero-menu-card">
+                <h3>연구단 구성</h3>
+                <span>+</span>
+            </a>
+
+            <a href="{% url 'performance_papers' %}" class="hero-menu-card">
+                <h3>연구성과</h3>
+                <span>+</span>
+            </a>
+
+            <a href="{% url 'events' %}" class="hero-menu-card">
+                <h3>주요행사</h3>
+                <span>+</span>
+            </a>
+        </div>
     </div>
 </section>
 
+<script>
+(function () {
+    const slides = document.querySelectorAll(".hero-slide");
+    const heroMenu = document.querySelector(".hero-menu-grid");
+    const heroText = document.querySelector(".hero-main-text");
 
-<!-- ================= HOME MAIN CONTENT ================= -->
-<div class="main-content">
+    if (slides.length) {
+        let index = 0;
 
-    <!-- Latest Events -->
-    <h2 class="section-title" style="margin-top:80px;">최근 행사</h2>
+        function showSlide(i) {
+            slides.forEach(slide => slide.classList.remove("active"));
+            slides[i].classList.add("active");
+        }
 
-    <div class="card-grid">
+        setInterval(function () {
+            index = (index + 1) % slides.length;
+            showSlide(index);
+        }, 5000);
+    }
 
-    {% for event in latest_events %}
-    <a href="{% url 'event_detail' event.id %}" class="home-card-link">
+    if (heroMenu && heroText) {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.intersectionRatio < 0.7) {
+                        heroMenu.classList.add("show");
+                    } else {
+                        heroMenu.classList.remove("show");
+                    }
+                });
+            },
+            {
+                threshold: [0.35, 0.5, 0.7, 1]
+            }
+        );
 
-        <div class="card">
-
-            {% if event.main_image %}
-                <img src="{{ event.main_image.0.image.url }}" class="home-card-img">
-            {% endif %}
-
-            <div class="card-body">
-                <h4>{{ event.title }}</h4>
-
-                {% if event.event_date %}
-                    <p>{{ event.event_date|date:"Y.m.d" }}</p>
-                {% else %}
-                    <p>{{ event.created_at|date:"Y.m.d" }}</p>
-                {% endif %}
-
-            </div>
-
-        </div>
-
-    </a>
-    {% endfor %}
-
-</div>
-
-
+        observer.observe(heroText);
+    }
+})();
+</script>
 
 {% endblock %}
