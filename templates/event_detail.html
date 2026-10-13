@@ -1,4 +1,4 @@
-﻿{% extends "base.html" %}
+{% extends "base.html" %}
 {% load static %}
 
 {% block content %}
@@ -6,7 +6,7 @@
 <section class="sub-hero {% if event.type == 'briefing' %}sub-hero--performance{% else %}sub-hero--events{% endif %}">
     <div class="sub-hero-overlay"></div>
     <div class="sub-hero-content">
-        <h1>{% if event.type == "briefing" %}연구성과{% else %}주요 행사{% endif %}</h1>
+        <h1>{% if event.type == "briefing" %}연구 성과{% else %}주요 행사{% endif %}</h1>
     </div>
 </section>
 
@@ -36,48 +36,36 @@
 
 <section class="subpage-wrap">
     <div class="container">
-        <div class="subpage-content subpage-content--full">
+        <div class="subpage-content subpage-content--full event-detail-content">
             <div style="margin-bottom:25px;">
                 {% if event.type == "briefing" %}
                 <a href="{% url 'performance_briefing' %}?page={{ request.GET.page|default:1 }}"
-                   style="padding:8px 18px; background:#ff7a00; color:white; text-decoration:none; border-radius:4px;">
+                   style="padding:8px 18px; background:#f58220; color:white; text-decoration:none; border-radius:4px;">
                     목록으로
                 </a>
                 {% else %}
                 <a href="{% url 'events' %}?page={{ request.GET.page|default:1 }}"
-                   style="padding:8px 18px; background:#ff7a00; color:white; text-decoration:none; border-radius:4px;">
+                   style="padding:8px 18px; background:#f58220; color:white; text-decoration:none; border-radius:4px;">
                     목록으로
                 </a>
                 {% endif %}
             </div>
 
-            <h2>{{ event.title }}</h2>
+            <h2 class="event-detail-title">{{ event.title }}</h2>
             <div class="title-line"></div>
 
-            <div class="briefing-meta">
-                {{ event.author }} | 조회 {{ event.views }} | {{ event.created_at }}
+            <div class="event-detail-body">
+                {{ event.content_html|safe }}
             </div>
 
-            <div style="line-height:1.8;">
-                {{ event.content|safe }}
-            </div>
-
-            <div class="briefing-meta">
-                {% if event.event_date %}
-                행사일: {{ event.event_date }} |
-                {% endif %}
-                조회 {{ event.views }} |
-                {{ event.created_at }}
-            </div>
-
-            {% if event.attachments.all %}
+            {% if event.attachments %}
             <div style="margin-top:40px;">
                 <h4>첨부파일</h4>
                 <ul>
-                    {% for file in event.attachments.all %}
+                    {% for file in event.attachments %}
                     <li>
-                        <a href="{{ file.file.url }}" download>
-                            {{ file.file.name|cut:"events/files/" }}
+                        <a href="{{ file.url }}" download>
+                            {{ file.name }}
                         </a>
                     </li>
                     {% endfor %}

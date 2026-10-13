@@ -1,0 +1,34 @@
+{% extends "participants_base.html" %}
+{% load static %}
+
+{% block participants_title %}박사후연구원{% endblock %}
+
+{% block participants_content %}
+<div class="profile-grid">
+    <article class="profile-card">
+        <div class="profile-left"><img src="{% static 'images/sample1.jpg' %}" class="profile-img" alt="조병철"></div>
+        <div class="profile-right">
+            <h3 class="profile-name">조병철</h3>
+            <ul class="profile-info">
+                <li class="info-item"><span>소속</span><div>동국대학교 사회안전교육연구소</div></li>
+                <li class="info-item"><span>직위</span><div>박사후연구원</div></li>
+                <li class="info-item"><span>연구분야</span><div>사회심리</div></li>
+                <li class="info-item"><span>Email</span><div>bcj8423@gmail.com</div></li>
+            </ul>
+        </div>
+    </article>
+
+    <article class="profile-card">
+        <div class="profile-left"><img src="{% static 'images/sample2.jpg' %}" class="profile-img" alt="김지연"></div>
+        <div class="profile-right">
+            <h3 class="profile-name">김지연</h3>
+            <ul class="profile-info">
+                <li class="info-item"><span>소속</span><div>동국대학교 사회안전교육연구소</div></li>
+                <li class="info-item"><span>직위</span><div>박사후연구원</div></li>
+                <li class="info-item"><span>연구분야</span><div>범죄심리</div></li>
+                <li class="info-item"><span>Email</span><div>helkahis@naver.com</div></li>
+            </ul>
+        </div>
+    </article>
+</div>
+{% endblock %}

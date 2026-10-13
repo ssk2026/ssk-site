@@ -1,0 +1,274 @@
+{% extends "participants_base.html" %}
+
+{% block participants_title %}조직도{% endblock %}
+
+{% block participants_content %}
+<style>
+    .organization-chart {
+        padding: 8px 0 20px;
+    }
+
+    .organization-root {
+        position: relative;
+        z-index: 2;
+        width: min(780px, 90%);
+        margin: 0 auto;
+        padding: 22px 30px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #2f3d60, #425a82);
+        color: #fff;
+        box-shadow: 0 14px 30px rgba(31, 43, 70, .15);
+        font-size: clamp(18px, 2vw, 24px);
+        font-weight: 850;
+        line-height: 1.45;
+        text-align: center;
+        word-break: keep-all;
+        transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    .organization-root:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 20px 40px rgba(31, 43, 70, .2);
+    }
+
+    .organization-root::after {
+        content: "";
+        position: absolute;
+        bottom: -54px;
+        left: 50%;
+        width: 2px;
+        height: 54px;
+        background: #c3cad6;
+        transform: translateX(-50%);
+    }
+
+    .organization-lead-row {
+        position: relative;
+        padding-top: 54px;
+    }
+
+    .organization-lead-row::after {
+        content: "";
+        position: absolute;
+        top: 81px;
+        right: 240px;
+        left: calc(50% + 180px);
+        height: 2px;
+        background: #c3cad6;
+    }
+
+    .organization-lead-row .organization-branch--leader {
+        width: 360px;
+        margin: 0 auto;
+    }
+
+    .organization-lead-row .organization-branch--admin {
+        position: absolute;
+        top: 54px;
+        right: 0;
+        width: 240px;
+    }
+
+    .organization-research-row {
+        position: relative;
+        width: min(920px, 100%);
+        margin: 0 auto;
+        padding-top: 72px;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: start;
+        gap: 24px;
+    }
+
+    .organization-research-row::before {
+        content: "";
+        position: absolute;
+        top: 34px;
+        right: calc(25% - 6px);
+        left: calc(25% - 6px);
+        height: 2px;
+        background: #c3cad6;
+    }
+
+    .organization-research-row::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 2px;
+        height: 34px;
+        background: #c3cad6;
+        transform: translateX(-50%);
+    }
+
+    .organization-branch {
+        position: relative;
+        align-self: start;
+        width: 100%;
+        min-width: 0;
+        overflow: visible;
+        border: 1px solid #dfe4ec;
+        border-radius: 18px;
+        background: #fff;
+        box-shadow: 0 10px 26px rgba(30, 42, 69, .07);
+        transition: border-color .25s ease, box-shadow .25s ease;
+    }
+
+    .organization-branch:hover {
+        border-color: #f58220;
+        box-shadow: 0 16px 36px rgba(30, 42, 69, .12);
+    }
+
+    .organization-research-row .organization-branch::before {
+        content: "";
+        position: absolute;
+        top: -38px;
+        left: 50%;
+        width: 2px;
+        height: 38px;
+        background: #c3cad6;
+        transform: translateX(-50%);
+    }
+
+    .organization-branch h3 {
+        margin: 0;
+        padding: 15px 12px;
+        background: #536889;
+        color: #fff;
+        font-size: 18px;
+        font-weight: 850;
+        text-align: center;
+        border-radius: 17px 17px 0 0;
+        transition: background .25s ease;
+    }
+
+    .organization-branch:hover h3 { background: #465c80; }
+
+    .organization-members {
+        display: grid;
+        gap: 10px;
+        padding: 14px;
+    }
+
+    .organization-branch--researchers .organization-members {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .organization-branch--postdocs .organization-members {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .organization-member {
+        min-width: 0;
+        padding: 15px 12px 13px;
+        border: 1px solid #e5e8ef;
+        border-radius: 12px;
+        background: #f7f8fa;
+        text-align: center;
+        transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease, background .22s ease;
+    }
+
+    .organization-member:hover {
+        border-color: #f58220;
+        background: #fff;
+        box-shadow: 0 8px 18px rgba(30, 42, 69, .1);
+        transform: translateY(-3px);
+    }
+
+    .organization-member strong {
+        display: block;
+        margin-bottom: 7px;
+        color: #151932;
+        font-size: 16px;
+        font-weight: 850;
+        overflow-wrap: anywhere;
+    }
+
+    .organization-member span {
+        display: block;
+        color: #69708a;
+        font-size: 14px;
+        line-height: 1.55;
+        word-break: keep-all;
+    }
+
+    @media (max-width: 1000px) {
+        .organization-root::after,
+        .organization-lead-row::after,
+        .organization-research-row::before,
+        .organization-research-row::after,
+        .organization-research-row .organization-branch::before { display: none; }
+        .organization-lead-row {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+            padding-top: 26px;
+        }
+        .organization-lead-row .organization-branch--leader,
+        .organization-lead-row .organization-branch--admin {
+            position: relative;
+            top: auto;
+            right: auto;
+            width: 100%;
+            margin: 0;
+        }
+        .organization-research-row {
+            width: 100%;
+            padding-top: 18px;
+            gap: 18px;
+        }
+    }
+
+    @media (max-width: 620px) {
+        .organization-root { width: 100%; padding: 20px 18px; }
+        .organization-lead-row,
+        .organization-research-row { grid-template-columns: 1fr; }
+        .organization-branch--researchers .organization-members,
+        .organization-branch--postdocs .organization-members { grid-template-columns: 1fr; }
+    }
+</style>
+
+<div class="organization-chart">
+    <div class="organization-root">생성형 AI 기술 혁신의 역기능과<br>사용자 위험요인 대응 정책방안 연구</div>
+
+    <div class="organization-lead-row">
+        <section class="organization-branch organization-branch--leader">
+            <h3>연구책임자</h3>
+            <div class="organization-members">
+                <div class="organization-member">
+                    <strong>조은경</strong>
+                    <span>동국대학교<br>법심리학</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="organization-branch organization-branch--admin">
+            <h3>행정전담인력</h3>
+            <div class="organization-members">
+                <div class="organization-member"><strong>최우제</strong><span>동국대학교<br>연구행정</span></div>
+            </div>
+        </section>
+    </div>
+
+    <div class="organization-research-row">
+        <section class="organization-branch organization-branch--researchers">
+            <h3>공동연구원</h3>
+            <div class="organization-members">
+                <div class="organization-member"><strong>김연수</strong><span>동국대학교<br>범죄예방·피해자학</span></div>
+                <div class="organization-member"><strong>김한균</strong><span>한국형사·법무정책연구원<br>법학</span></div>
+                <div class="organization-member"><strong>이해님</strong><span>동국대학교<br>사회복지학</span></div>
+                <div class="organization-member"><strong>전주은</strong><span>동국대학교<br>정보보호·공공정책</span></div>
+                <div class="organization-member"><strong>Kiseong Kuen</strong><span>Griffith University<br>Criminology &amp; Criminal Justice</span></div>
+            </div>
+        </section>
+
+        <section class="organization-branch organization-branch--postdocs">
+            <h3>박사후연구원</h3>
+            <div class="organization-members">
+                <div class="organization-member"><strong>조병철</strong><span>동국대학교<br>사회심리</span></div>
+                <div class="organization-member"><strong>김지연</strong><span>동국대학교<br>범죄심리</span></div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}

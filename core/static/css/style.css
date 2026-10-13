@@ -1,8 +1,8 @@
 :root {
-    --main-orange: #ff7a00;
+    --main-orange: #7657ff;
     --dark: #111;
     --light-gray: #f4f6f9;
-    --light-orange: #ffd9b3;
+    --light-orange: #e4ddff;
 }
 
 /* ================= 공통 ================= */
@@ -822,7 +822,7 @@ html, body {
 .footer-brand-divider {
     width: 2px;
     height: 34px;
-    background: #ff7a00;
+    background: #7657ff;
     display: inline-block;
     flex-shrink: 0;
 }
@@ -1218,7 +1218,7 @@ html, body {
     top: 5px;
     width: 6px;
     height: 50px;
-    background-color: #ff7a00;
+    background-color: #7657ff;
 }
 
 /* ================= CONTACT ================= */
@@ -1243,7 +1243,7 @@ html, body {
 .contact-form h2 {
     margin-bottom: 40px;
     font-size: 30px;
-    border-left: 6px solid #ff7a00;
+    border-left: 6px solid #7657ff;
     padding-left: 15px;
 }
 
@@ -1259,12 +1259,12 @@ html, body {
 
 .contact-form input:focus,
 .contact-form textarea:focus {
-    border-color: #ff7a00;
+    border-color: #7657ff;
     outline: none;
 }
 
 .contact-form button {
-    background: #ff7a00;
+    background: #7657ff;
     color: #fff;
     border: none;
     padding: 14px 35px;
@@ -1283,7 +1283,7 @@ html, body {
 }
 
 .admin-badge {
-    color: #ff7a00;
+    color: #7657ff;
     font-weight: 600;
 }
 
@@ -1360,7 +1360,7 @@ html, body {
     width: 44px;
     height: 3px;
     border-radius: 999px;
-    background: linear-gradient(to right, #1f2b3a, #f6a63a);
+    background: linear-gradient(to right, #1f2b3a, #7657ff);
     flex-shrink: 0;
 }
 
@@ -1602,7 +1602,7 @@ html, body {
 .brand-divider {
     width: 2px;
     height: 34px;
-    background: #ff7a00;
+    background: #7657ff;
     display: inline-block;
     flex-shrink: 0;
 }

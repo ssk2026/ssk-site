@@ -1,54 +1,49 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.core.paginator import Paginator
-from django.db.models import Q, Prefetch
-from django.utils import timezone
-from datetime import timedelta
-from django.contrib.admin.views.decorators import staff_member_required
-from django.conf import settings
 from pathlib import Path
 from urllib.parse import quote
 
-from .models import Event, EventImage, EventView, Notice, Inquiry
-from .forms import EventForm
+from django.conf import settings
+from django.core.paginator import Paginator
+from django.http import Http404
+from django.shortcuts import render
+from django.utils.html import strip_tags
 
+from .content import find_by_id, load_events, load_notices
 
-# =========================
-# ??
-# =========================
 
 def home(request):
+    return render(request, "home.html")
 
-    # ??됰선嚥???????????筌왖
-    hero_images = EventImage.objects.filter(is_main=True).order_by('-id')[:3]
 
-    # ????롫뼊 筌ㅼ뮄???깃텢 燁삳?諭??
-    main_images = EventImage.objects.filter(is_main=True)
-    latest_events = Event.objects.prefetch_related(
-        Prefetch('images', queryset=main_images, to_attr='main_image')
-    ).filter(type='event').order_by('-created_at')[:2]
+def overview(request):
+    return render(request, "about_overview.html")
 
-    # ????롫뼊 ??용뮞??筌뤴뫖以??
-    recent_events = Event.objects.filter(type='event').order_by('-created_at')[:5]
-    recent_notices = Notice.objects.all().order_by('-id')[:5]
 
-    return render(request, 'home.html', {
-        'latest_events': latest_events,
-        'hero_images': hero_images,
-        'recent_events': recent_events,
-        'recent_notices': recent_notices,
-    })
+def about_intro(request):
+    return render(request, "about_intro.html")
 
-# =========================
-# ?類ㅼ읅 ??륁뵠筌왖
-# =========================
 
-def about(request): return render(request, 'about.html')
-def overview(request): return render(request, 'about_overview.html')
-def about_intro(request): return render(request, 'about_intro.html')
-def people(request): return render(request, 'people.html')
-def outputs(request): return render(request, 'outputs.html')
-def performance_overview(request): return render(request, 'core/performance_overview.html')
-def performance_papers(request): return render(request, 'core/performance_papers.html')
+def people(request):
+    return render(request, "people.html")
+
+
+def participants_organization(request):
+    return render(request, "participants_organization.html")
+
+
+def participants_professors(request):
+    return render(request, "participants_professors.html")
+
+
+def participants_postdocs(request):
+    return render(request, "participants_postdocs.html")
+
+
+def participants_assistants(request):
+    return render(request, "participants_assistants.html")
+
+
+def performance_papers(request):
+    return render(request, "core/performance_papers.html")
 
 
 def performance_business_plan(request):
@@ -57,186 +52,115 @@ def performance_business_plan(request):
 
     if proposals_dir.exists():
         proposal_files = sorted(
-            [f for f in proposals_dir.iterdir() if f.is_file() and f.suffix.lower() == ".pdf"],
-            key=lambda p: p.name
+            (
+                file
+                for file in proposals_dir.iterdir()
+                if file.is_file() and file.suffix.lower() == ".pdf"
+            ),
+            key=lambda file: file.name,
         )
         if proposal_files:
-            proposal_file_url = f"{settings.MEDIA_URL}proposals/{quote(proposal_files[0].name)}"
+            proposal_file_url = (
+                f"{settings.MEDIA_URL}proposals/{quote(proposal_files[0].name)}"
+            )
 
     try:
-        initial_page = int(request.GET.get("page", 1))
+        initial_page = max(1, int(request.GET.get("page", 1)))
     except (TypeError, ValueError):
         initial_page = 1
 
-    if initial_page < 1:
-        initial_page = 1
+    return render(
+        request,
+        "core/performance_business_plan.html",
+        {"proposal_file_url": proposal_file_url, "initial_page": initial_page},
+    )
 
-    return render(request, "core/performance_business_plan.html", {
-        "proposal_file_url": proposal_file_url,
-        "initial_page": initial_page,
-    })
-
-
-# =========================
-# ?얜챷???띾┛
-# =========================
 
 def contact(request):
-    if request.method == "POST":
-        Inquiry.objects.create(
-            name=request.POST.get("name"),
-            email=request.POST.get("email"),
-            subject=request.POST.get("subject"),
-            message=request.POST.get("message")
-        )
-        return redirect("contact")
-
-    return render(request, 'contact.html')
+    return render(request, "contact.html")
 
 
-# =========================
-# 雅뚯눘???깃텢 (type='event')
-# =========================
+def _filtered_events(request, event_type):
+    events = load_events(event_type)
+    query = request.GET.get("q", "").strip()
+    search_type = request.GET.get("type", "title")
+
+    if query:
+        lowered_query = query.casefold()
+        if search_type == "content":
+            events = [
+                event
+                for event in events
+                if lowered_query in strip_tags(event["content_html"]).casefold()
+            ]
+        else:
+            events = [
+                event
+                for event in events
+                if lowered_query in event["title"].casefold()
+            ]
+
+    return events, query, search_type
+
 
 def event_list(request):
-    event_list = Event.objects.filter(type='event').order_by('-created_at')
+    events, query, search_type = _filtered_events(request, "event")
+    page_obj = Paginator(events, 5).get_page(request.GET.get("page"))
+    return render(
+        request,
+        "events.html",
+        {
+            "page_obj": page_obj,
+            "total_count": len(events),
+            "q": query,
+            "type": search_type,
+        },
+    )
 
-    q = request.GET.get('q')
-    search_type = request.GET.get('type')
-
-    if q:
-        if search_type == 'title':
-            event_list = event_list.filter(title__icontains=q)
-        elif search_type == 'content':
-            event_list = event_list.filter(content__icontains=q)
-        else:
-            event_list = event_list.filter(
-                Q(title__icontains=q) | Q(content__icontains=q)
-            )
-
-    paginator = Paginator(event_list, 5)
-    page_obj = paginator.get_page(request.GET.get('page'))
-
-    return render(request, 'events.html', {
-        'page_obj': page_obj,
-        'total_count': event_list.count(),
-        'q': q,
-        'type': search_type,
-    })
-
-
-# =========================
-# ?源껊궢?됰슢???(type='briefing')
-# =========================
 
 def performance_briefing(request):
-    briefing_list = Event.objects.filter(type='briefing').order_by('-created_at')
-
-    q = request.GET.get('q')
-    search_type = request.GET.get('type')
-
-    if q:
-        if search_type == 'content':
-            briefing_list = briefing_list.filter(content__icontains=q)
-        else:
-            briefing_list = briefing_list.filter(title__icontains=q)
-
-    paginator = Paginator(briefing_list, 5)
-    page_obj = paginator.get_page(request.GET.get('page'))
-
-    return render(request, 'core/performance_briefing.html', {
-        'page_obj': page_obj,
-        'total_count': briefing_list.count(),
-        'q': q,
-        'type': search_type,
-    })
-
-
-# =========================
-# ?怨멸쉭??륁뵠筌왖 (?⑤벏??
-# =========================
-
-def get_client_ip(request):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    return x_forwarded_for.split(',')[0] if x_forwarded_for else request.META.get('REMOTE_ADDR')
+    briefings, query, search_type = _filtered_events(request, "briefing")
+    page_obj = Paginator(briefings, 5).get_page(request.GET.get("page"))
+    return render(
+        request,
+        "core/performance_briefing.html",
+        {
+            "page_obj": page_obj,
+            "total_count": len(briefings),
+            "q": query,
+            "type": search_type,
+        },
+    )
 
 
 def event_detail(request, id):
-    event = get_object_or_404(Event, id=id)
+    event = find_by_id(load_events(), id)
+    if event is None:
+        raise Http404("해당 게시물을 찾을 수 없습니다.")
+    return render(request, "event_detail.html", {"event": event})
 
-    ip = get_client_ip(request)
-    one_day_ago = timezone.now() - timedelta(days=1)
-
-    already_viewed = EventView.objects.filter(
-        event=event,
-        ip_address=ip,
-        viewed_at__gte=one_day_ago
-    ).exists()
-
-    if not already_viewed:
-        event.views += 1
-        event.save()
-        EventView.objects.create(event=event, ip_address=ip)
-
-    return render(request, 'event_detail.html', {'event': event})
-
-
-# =========================
-# ?⑤벊???鍮?
-# =========================
 
 def notice_list(request):
-    notice_list = Notice.objects.all()
+    notices = load_notices()
+    query = request.GET.get("q", "").strip()
+    if query:
+        lowered_query = query.casefold()
+        notices = [
+            notice
+            for notice in notices
+            if lowered_query in notice["title"].casefold()
+        ]
 
-    q = request.GET.get('q')
-    if q:
-        notice_list = notice_list.filter(title__icontains=q)
+    page_obj = Paginator(notices, 10).get_page(request.GET.get("page"))
+    return render(
+        request,
+        "notice_list.html",
+        {"page_obj": page_obj, "total_count": len(notices), "q": query},
+    )
 
-    paginator = Paginator(notice_list, 10)
-    page_obj = paginator.get_page(request.GET.get('page'))
-
-    return render(request, 'notice_list.html', {
-        'page_obj': page_obj,
-        'total_count': notice_list.count(),
-        'q': q,
-    })
 
 def notice_detail(request, id):
-    notice = get_object_or_404(Notice, id=id)
-
-    notice.views += 1
-    notice.save()
-
-    return render(request, 'notice_detail.html', {
-        'notice': notice
-    })
-# =========================
-# ?온?귐딆쁽 ?袁⑹뒠 CRUD
-# =========================
-
-@staff_member_required
-def event_create(request):
-    form = EventForm(request.POST or None, request.FILES or None)
-    if form.is_valid():
-        form.save()
-        return redirect('event_list')
-    return render(request, 'event_form.html', {'form': form})
-
-
-@staff_member_required
-def event_update(request, id):
-    event = get_object_or_404(Event, id=id)
-    form = EventForm(request.POST or None, request.FILES or None, instance=event)
-    if form.is_valid():
-        form.save()
-        return redirect('event_detail', id=event.id)
-    return render(request, 'event_form.html', {'form': form})
-
-
-@staff_member_required
-def event_delete(request, id):
-    event = get_object_or_404(Event, id=id)
-    if request.method == 'POST':
-        event.delete()
-        return redirect('event_list')
-    return render(request, 'event_confirm_delete.html', {'event': event})
+    notice = find_by_id(load_notices(), id)
+    if notice is None:
+        raise Http404("해당 공지사항을 찾을 수 없습니다.")
+    return render(request, "notice_detail.html", {"notice": notice})

@@ -2,473 +2,7 @@
 {% load static %}
 
 {% block content %}
-<style>
-    /* ==========================================
-       1. 가로형 서브 메뉴
-       ========================================== */
-    * { box-sizing: border-box; }
-    body {
-        font-family: 'Pretendard', sans-serif;
-        background-color: #ffffff;
-        color: #333;
-        line-height: 1.6;
-        margin: 0;
-        padding: 0;
-    }
-
-    .sub-nav-wrap {
-        background-color: #fff;
-        border-bottom: 1px solid #e0e0e0;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-        position: relative;
-        z-index: 100;
-    }
-
-    .sub-nav-menu {
-        display: flex;
-        justify-content: center;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
-
-    .sub-nav-menu > li {
-        position: relative;
-    }
-
-    .sub-nav-menu > li > a {
-        display: block;
-        padding: 20px 40px;
-        font-size: 18px;
-        font-weight: 600;
-        color: #555;
-        text-decoration: none;
-        transition: color 0.3s;
-    }
-
-    .sub-nav-menu > li.active > a,
-    .sub-nav-menu > li:hover > a {
-        color: #FF8000;
-        box-shadow: inset 0 -3px 0 #FF8000;
-    }
-
-    /* ==========================================
-       2. 본문 공통
-       ========================================== */
-    .overview-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 60px 20px 120px;
-    }
-
-    .overview-title,
-    .section-title {
-        color: #222;
-        font-size: 27px;
-        font-weight: 800;
-        margin-top: 0;
-        margin-bottom: 30px;
-        border-left: none;
-        padding-left: 0px;
-    }
-
-    /* ==========================================
-       3. 연구 목표 상단 영역 (새 디자인)
-       ========================================== */
-    .research-goal-section {
-        margin-bottom: 70px;
-    }
-
-    .research-goal-desc {
-        font-size: 17px;
-        color: #444;
-        line-height: 1.8;
-        margin: 0 0 42px 0;
-        word-break: keep-all;
-    }
-
-    .goal-box-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 28px;
-        margin-bottom: 75px;
-    }
-
-    .goal-box {
-        background: #fff;
-        border: 2px solid #f19a3e;
-        transition: transform 0.25s ease, box-shadow 0.25s ease;
-    }
-
-    .goal-box:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 12px 22px rgba(0,0,0,0.06);
-    }
-
-    .goal-head {
-        background: #f19a3e;
-        color: #fff;
-        font-size: 17px;
-        font-weight: 700;
-        text-align: center;
-        padding: 14px 12px;
-    }
-
- .goal-box h3 {
-    font-size: 20px;
-    color: #222;
-    font-weight: 800;
-    line-height: 1.5;
-    margin: 0;
-    padding: 30px 26px 18px;
-    word-break: keep-all;
-}
-
-.goal-box h3::after {
-    content: "";
-    display: block;
-    width: 220px;
-    height: 2px;
-    background: #2f2f2f;
-    margin-top: 14px;
-}
-    .goal-box p {
-        font-size: 15px;
-        color: #666;
-        line-height: 1.8;
-        margin: 0;
-        padding: 0 26px 28px;
-        word-break: keep-all;
-    }
-
-    /* ==========================================
-       4. 타임라인형 연차별 로드맵 (기존 유지)
-       ========================================== */
- /* ==========================================
-   4. 타임라인형 연차별 로드맵 (세로 크기 축소)
-   ========================================== */
-.timeline-wrapper {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 36px;
-    padding-bottom: 20px;
-}
-
-.timeline-line {
-    position: absolute;
-    left: 80px;
-    top: 0;
-    bottom: 0;
-    width: 5px;
-    background: #FF9A44;
-    transform: translateX(-50%);
-    z-index: 1;
-    border-radius: 3px;
-}
-
-.timeline-line::after {
-    content: '';
-    position: absolute;
-    bottom: -16px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-left: 12px solid transparent;
-    border-right: 12px solid transparent;
-    border-top: 20px solid #FF9A44;
-}
-
-.timeline-item {
-    display: flex;
-    align-items: center;
-    gap: 34px;
-    position: relative;
-    z-index: 2;
-}
-
-.year-circle {
-    width: 160px;
-    height: 160px;
-    flex-shrink: 0;
-    background: #fff;
-    border: 5px solid #FF8000;
-    border-radius: 50%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-}
-
-.year-circle strong {
-    font-size: 22px;
-    color: #333;
-    line-height: 1.2;
-    margin-bottom: 4px;
-    font-weight: 800;
-}
-
-.year-circle span {
-    font-size: 14px;
-    color: #777;
-    text-align: center;
-    line-height: 1.35;
-    font-weight: 600;
-}
-
-.year-card-box {
-    flex-grow: 1;
-    background: #fff;
-    border-radius: 16px;
-    padding: 30px 50px;   /* 가로는 유지, 세로만 축소 */
-    box-shadow: 0 5px 18px rgba(0,0,0,0.04);
-    border: 1px solid #eee;
-    display: flex;
-    align-items: center;
-    gap: 36px;
-    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
-}
-
-.year-card-box:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 24px rgba(255, 128, 0, 0.08);
-    border-color: #FF8000;
-}
-
-.year-summary {
-    flex-shrink: 0;
-    width: 240px;
-    font-size: 22px;
-    font-weight: 800;
-    color: #222;
-    padding-right: 30px;
-    border-right: 2px dashed #ddd;
-    word-break: keep-all;
-    line-height: 1.4;
-}
-
-.year-content {
-    flex-grow: 1;
-}
-
-.research-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 18px;
-}
-
-.tag {
-    font-size: 14px;
-    font-weight: 700;
-    padding: 7px 16px;
-    border-radius: 8px;
-    color: #fff;
-    letter-spacing: 0.3px;
-}
-
-.t-lit { background: linear-gradient(135deg, #4facfe, #00f2fe); }
-.t-scale { background: linear-gradient(135deg, #1dd1a1, #10ac84); }
-.t-survey { background: linear-gradient(135deg, #FF9A44, #FF8000); }
-.t-exp { background: linear-gradient(135deg, #ff758c, #ff7eb3); }
-.t-policy { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #111; }
-
-.research-details {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.research-details li {
-    font-size: 17px;
-    color: #555;
-    margin-bottom: 10px;
-    padding-left: 18px;
-    position: relative;
-    line-height: 1.5;
-    word-break: keep-all;
-    font-weight: 500;
-}
-
-.research-details li:last-child {
-    margin-bottom: 0;
-}
-
-.research-details li::before {
-    content: '•';
-    position: absolute;
-    left: 0;
-    top: 0;
-    color: #FF8000;
-    font-weight: bold;
-    font-size: 18px;
-}
-  /* ==========================================
-   5. 기대효과
-   ========================================== */
-.expected-section {
-    margin-top: 120px;
-    padding: 0;
-    background: transparent;
-}
-
-.expected-layout {
-    display: grid;
-    grid-template-columns: 120px 1fr;
-    gap: 24px;
-    align-items: start;
-}
-
-.expected-side-title {
-    font-size: 27px;
-    font-weight: 800;
-    color: #222;
-    line-height: 1.3;
-    word-break: keep-all;
-    margin-top: 0;
-}
-
-.expected-content {
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
-}
-
-.expected-item h3 {
-    font-size: 20px;
-    font-weight: 800;
-    color: #555;
-    margin: 0 0 12px 0;
-    line-height: 1.5;
-    word-break: keep-all;
-}
-
-.expected-box {
-    background: #fff;
-    padding: 24px 30px;
-    border: 1px solid #eee;
-}
-
-.expected-box p {
-    margin: 0;
-    font-size: 15px;
-    line-height: 1.9;
-    color: #666;
-    font-weight: 500;
-    word-break: keep-all;
-}
-    /* ==========================================
-       6. 반응형
-       ========================================== */
- @media (max-width: 1024px) {
-    .goal-box-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .timeline-item {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .timeline-line {
-        display: none;
-    }
-
-    .year-card-box {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 30px;
-    }
-
-    .year-summary {
-        width: 100%;
-        padding-right: 0;
-        border-right: none;
-        border-bottom: 2px dashed #ddd;
-        padding-bottom: 20px;
-    }
-
-   .expected-layout {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-
-    .expected-side-title {
-        font-size: 24px;
-    }
-}
-          
-
-    @media (max-width: 768px) {
-        .sub-nav-menu {
-            flex-wrap: wrap;
-        }
-
-        .sub-nav-menu > li > a {
-            padding: 16px 20px;
-            font-size: 16px;
-        }
-
-        .overview-title,
-        .section-title {
-            font-size: 24px;
-        }
-
-        .research-goal-desc {
-            font-size: 16px;
-        }
-
-        .goal-box h3 {
-            font-size: 21px;
-        }
-
-        .goal-box p {
-            font-size: 15px;
-        }
-
-        .year-circle {
-            width: 150px;
-            height: 150px;
-        }
-
-        .year-circle strong {
-            font-size: 22px;
-        }
-
-        .year-card-box {
-            padding: 30px 24px;
-        }
-
-        .year-summary {
-            font-size: 22px;
-        }
-
-       .research-details li {
-    font-size: 17px;
-}
-
- .expected-section {
-        margin-top: 90px;
-    }
-
-    .expected-side-title {
-        font-size: 24px;
-    }
-
-    .expected-item h3 {
-        font-size: 18px;
-    }
-
-    .expected-box {
-        padding: 18px 20px;
-    }
-
-    .expected-box p {
-        font-size: 15px;
-        line-height: 1.8;
-    }
-}
-</style>
+<link rel="stylesheet" href="{% static 'css/about-overview-editorial.css' %}?v=7">
 
 <section class="sub-hero">
     <div class="sub-hero-overlay"></div>
@@ -485,182 +19,174 @@
         <li class="{% if request.resolver_match.url_name == 'about_intro' %}active{% endif %}">
             <a href="{% url 'about_intro' %}">연구단장 인사말</a>
         </li>
-        <li class="{% if request.resolver_match.url_name == 'people' %}active{% endif %}">
-            <a href="{% url 'people' %}">연구단 구성</a>
-        </li>
     </ul>
 </nav>
 
-<section class="overview-container">
+<main class="overview-editorial">
 
-    <section class="research-goal-section">
-        <h2 class="section-title">연구 목표</h2>
-
-        <p class="research-goal-desc">
-            동국대학교 SSK(한국사회과학) 생성형 AI 사용자 위험 대응 연구단은
-            2025년 9월(1차년도)부터 2028년 9월(4차년도)까지 총 3년간,
-            사용자 중심 관점에서 생성형 AI 기술 혁신으로 인해 발생하는 역기능을
-            탐색하고 이에 대한 대응 방안을 제안하고자 합니다.
+    <section class="overview-intro">
+        <h2>생성형 AI 기술 변화 속에서 사용자를 이해하고 보호하는 정책 연구</h2>
+        <p class="overview-intro-en">Research for responsible and inclusive generative AI</p>
+        <p class="overview-intro-lead overview-reveal">
+            동국대학교 SSK 생성형AI 사용자 취약성 대응정책 연구단은 사용자 중심 관점에서
+            생성형 AI 기술 혁신으로 발생하는 <strong>역기능과 취약성의 구조를 규명</strong>하고,
+            누구도 기술 변화에서 소외되지 않도록 <strong>실효성 있는 대응정책</strong>을 제안합니다.
         </p>
-
-        <div class="goal-box-grid">
-            <div class="goal-box">
-                <div class="goal-head">연구 목표 01</div>
-                <h3>생성형 AI 역기능과<br>사용자 위험성 개념 정립</h3>
-                <p>
-                    사용자의 상황맥락에서 발생할 수 있는 생성형 AI의
-                    역기능을 확인합니다.
-                </p>
-            </div>
-
-            <div class="goal-box">
-                <div class="goal-head">연구 목표 02</div>
-                <h3>사용자 위험성에 대한<br>개인적·환경적 영향 요인 규명</h3>
-                <p>
-                    설문 및 실험 연구를 통해 생성형 AI 사용자 위험성에 영향을 미치는
-                    개인적·환경적 요인을 실증적으로 규명합니다.
-                </p>
-            </div>
-
-            <div class="goal-box">
-                <div class="goal-head">연구 목표 03</div>
-                <h3>개인적·사회적 차원의<br>법률 및 정책적 대응 방안 제시</h3>
-                <p>
-                    사용자 보호를 위한 안전 설계 가이드라인을 제시하고
-                    올바른 AI 사용 교육을 위한 정책적 제안을 통해
-                    글로벌 아젠다를 선도하고자 합니다.
-                </p>
-            </div>
-        </div>
-
-        <h2 class="section-title">중장기 계획</h2>
     </section>
 
-    <div class="timeline-wrapper">
-        <div class="timeline-line"></div>
-
-        <div class="timeline-item">
-            <div class="year-circle">
-                <strong>1차년도</strong><span>2025년도<br>하반기</span>
-            </div>
-            <div class="year-card-box">
-                <div class="year-summary">위험성 개념화 및<br>측정 기반 마련</div>
-                <div class="year-content">
-                    <div class="research-tags">
-                        <span class="tag t-lit">문헌 연구</span>
-                        <span class="tag t-scale">척도 개발</span>
-                    </div>
-                    <ul class="research-details">
-                        <li>AI 기술적 발전 및 국내외 법률 비교 분석</li>
-                        <li>AI 사용자 위험성 개념 정립을 위한 선행 연구 검토</li>
-                        <li>AI 과의존 척도 개발 착수</li>
-                    </ul>
-                </div>
+    <section class="overview-definitions">
+        <div class="overview-definition-row overview-reveal">
+            <h3>비전</h3>
+            <div class="overview-definition-copy">
+                <p>생성형 AI의 발전이 사용자의 존엄성과 안전을 증진하는 방향으로 이어지도록, 기술과 인간 그리고 사회를 연결하는 사용자 중심 정책 연구의 기반을 마련합니다.</p>
             </div>
         </div>
-
-        <div class="timeline-item">
-            <div class="year-circle">
-                <strong>2차년도</strong><span>2026년도</span>
-            </div>
-            <div class="year-card-box">
-                <div class="year-summary">척도 타당화 및<br>실증 연구 본격화</div>
-                <div class="year-content">
-                    <div class="research-tags">
-                        <span class="tag t-lit">문헌 연구</span>
-                        <span class="tag t-scale">척도 개발</span>
-                        <span class="tag t-survey">설문 연구</span>
-                        <span class="tag t-exp">실험 연구</span>
-                    </div>
-                    <ul class="research-details">
-                        <li>AI 과의존 척도 타당화 검증 완료</li>
-                        <li>생성형 AI 활용 실태 및 사용자 인식 조사</li>
-                        <li>신뢰도·취약성 환경적 요인 규명 실험 착수</li>
-                    </ul>
-                </div>
+        <div class="overview-definition-row overview-reveal">
+            <h3>목표</h3>
+            <div class="overview-definition-copy">
+                <p>사용자 상황에서 나타나는 생성형 AI의 역기능을 개념화하고 개인적·환경적 영향 요인을 실증적으로 규명하여, 법률·제도·교육을 아우르는 보호 방안을 제시합니다.</p>
             </div>
         </div>
+    </section>
 
-        <div class="timeline-item">
-            <div class="year-circle">
-                <strong>3차년도</strong><span>2027년도</span>
-            </div>
-            <div class="year-card-box">
-                <div class="year-summary">인과관계 규명 및<br>경로 분석 심화</div>
-                <div class="year-content">
-                    <div class="research-tags">
-                        <span class="tag t-survey">설문 연구</span>
-                        <span class="tag t-exp">실험 연구</span>
-                    </div>
-                    <ul class="research-details">
-                        <li>과의존 결정요인 및 취약성 경로 모델링</li>
-                        <li>개인적·환경적 요인 간 인과관계 규명</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="timeline-item">
-            <div class="year-circle">
-                <strong>4차년도</strong><span>2028년도<br>상반기</span>
-            </div>
-            <div class="year-card-box">
-                <div class="year-summary">정책 제언 및<br>대응 방안 도출</div>
-                <div class="year-content">
-                    <div class="research-tags">
-                        <span class="tag t-policy">정책 제언</span>
-                    </div>
-                    <ul class="research-details">
-                        <li>데이터 기반 사용자 위험성 유형 분류 및 규제 정책 한계 보완</li>
-                        <li>생성형 AI 역기능 방지 정책 및 법제화 가이드라인 제시</li>
-                    </ul>
-                </div>
+    <section class="overview-focus">
+        <div class="overview-section-layout">
+            <h2 class="overview-section-heading overview-reveal">핵심<br>연구목표</h2>
+            <div class="overview-focus-grid">
+                <article class="overview-focus-item overview-reveal">
+                    <span class="overview-number">01</span>
+                    <h3>생성형 AI 역기능과 사용자 위험성 개념 정립</h3>
+                    <p>사용자의 상황맥락에서 발생할 수 있는 생성형 AI의 역기능을 확인하고 체계적으로 정의합니다.</p>
+                </article>
+                <article class="overview-focus-item overview-reveal overview-reveal-delay-1">
+                    <span class="overview-number">02</span>
+                    <h3>개인적·환경적 영향 요인 규명</h3>
+                    <p>설문과 실험 연구를 통해 사용자 위험성에 영향을 미치는 주요 요인을 실증적으로 규명합니다.</p>
+                </article>
+                <article class="overview-focus-item overview-reveal overview-reveal-delay-2">
+                    <span class="overview-number">03</span>
+                    <h3>법률 및 정책적 대응 방안 제시</h3>
+                    <p>사용자 보호를 위한 안전 설계 가이드라인과 올바른 AI 활용을 위한 정책 방향을 제안합니다.</p>
+                </article>
             </div>
         </div>
-    </div>
+    </section>
 
-<div class="expected-section">
-    <div class="expected-layout">
-        <div class="expected-side-title">기대효과</div>
+    <section class="overview-roadmap">
+        <div class="overview-roadmap-heading overview-reveal">
+            <h2>중장기 연구계획</h2>
+            <p>2025년 하반기부터 2028년 상반기까지의 4단계 연구 로드맵</p>
+        </div>
+        <div class="overview-roadmap-grid">
+            <article class="overview-roadmap-item overview-reveal">
+                <span class="overview-step">STEP 01</span>
+                <span class="overview-year">2025년도 하반기</span>
+                <h3>위험성 개념화 및 측정 기반 마련</h3>
+                <ul>
+                    <li>국내외 법률 및 선행 연구 검토</li>
+                    <li>AI 사용자 위험성 개념 정립</li>
+                    <li>AI 과의존 척도 개발 착수</li>
+                </ul>
+            </article>
+            <article class="overview-roadmap-item overview-reveal overview-reveal-delay-1">
+                <span class="overview-step">STEP 02</span>
+                <span class="overview-year">2026년도</span>
+                <h3>척도 타당화 및 실증 연구 본격화</h3>
+                <ul>
+                    <li>AI 과의존 척도 타당화</li>
+                    <li>활용 실태 및 사용자 인식 조사</li>
+                    <li>환경적 요인 규명 실험 착수</li>
+                </ul>
+            </article>
+            <article class="overview-roadmap-item overview-reveal overview-reveal-delay-2">
+                <span class="overview-step">STEP 03</span>
+                <span class="overview-year">2027년도</span>
+                <h3>인과관계 규명 및 경로 분석 심화</h3>
+                <ul>
+                    <li>과의존 결정요인 모델링</li>
+                    <li>취약성 경로 분석</li>
+                    <li>요인 간 인과관계 규명</li>
+                </ul>
+            </article>
+            <article class="overview-roadmap-item overview-reveal overview-reveal-delay-3">
+                <span class="overview-step">STEP 04</span>
+                <span class="overview-year">2028년도 상반기</span>
+                <h3>정책 제언 및 대응 방안 도출</h3>
+                <ul>
+                    <li>사용자 위험성 유형 분류</li>
+                    <li>규제 정책 한계 보완</li>
+                    <li>법제화 가이드라인 제시</li>
+                </ul>
+            </article>
+        </div>
+    </section>
 
-        <div class="expected-content">
-            <div class="expected-item">
-                <h3>01. 생성형 AI 역기능과 사용자 위험성 개념 정립</h3>
-                <div class="expected-box">
-                    <p>
-                        본 연구는 생성형 AI 사용자 위험성에 대한 개념을 체계화하고, 이를 측정할 수 있는 도구를
-                        개발하여 관련 연구의 학문적 토대를 마련합니다. 또한 사용자 위험성과 역기능의 발생 메커니즘을
-                        규명하고, 국제 공동연구를 통해 연구 성과의 확산과 학술 네트워크 확대에 기여합니다.
-                    </p>
-                </div>
-            </div>
-
-            <div class="expected-item">
-                <h3>02. 사용자 보호 중심의 규제 및 제도 개선 방향 제시</h3>
-                <div class="expected-box">
-                    <p>
-                        본 연구는 생성형 AI 사용 측면의 위험성과 영향 요인을 실증적으로 파악하여, 기존의 기술적 규제
-                        방식에서 더 나아가 사용자 보호 중심의 규제 및 제도 개선 방향을 제시합니다. 아울러 생성형 AI를
-                        새로운 사회적 상호작용의 장으로 인식하는 현상을 규명함으로써, 변화하는 기술 환경에 대응하는
-                        정책적 기반을 마련합니다.
-                    </p>
-                </div>
-            </div>
-
-            <div class="expected-item">
-                <h3>03. 생성형 AI 올바른 사용을 위한 교육 및 정책 활용 기반 제공</h3>
-                <div class="expected-box">
-                    <p>
-                        본 연구는 다양한 사용자 경험과 위험 인식을 반영하여 생성형 AI의 올바른 사용을 위한 교육
-                        매뉴얼과 활용 가이드 마련에 기여합니다. 또한 맞춤형 규제·보호·교육 정책 수립을 지원하고,
-                        국내외 AI 대응 전략 비교를 바탕으로 정부, 지자체, 교육기관 대상의 실효성 있는 정책 제언과
-                        국제 협력 논의에 활용 가능한 근거를 제공합니다.
-                    </p>
-                </div>
+    <section class="overview-impact">
+        <div class="overview-section-layout">
+            <h2 class="overview-section-heading overview-reveal">기대성과</h2>
+            <div class="overview-impact-grid">
+                <article class="overview-impact-item overview-reveal">
+                    <span class="overview-number">01</span>
+                    <h3>사용자 위험성 연구의 학문적 토대 마련</h3>
+                    <p>위험성 개념을 체계화하고 측정 도구를 개발하여 후속 연구와 국제 협력의 기반을 넓힙니다.</p>
+                </article>
+                <article class="overview-impact-item overview-reveal overview-reveal-delay-1">
+                    <span class="overview-number">02</span>
+                    <h3>사용자 보호 중심의 제도 개선 방향 제시</h3>
+                    <p>실증 자료를 바탕으로 기존 기술 규제를 보완하고 사용자 관점의 정책적 근거를 제공합니다.</p>
+                </article>
+                <article class="overview-impact-item overview-reveal overview-reveal-delay-2">
+                    <span class="overview-number">03</span>
+                    <h3>올바른 AI 사용을 위한 교육·정책 활용</h3>
+                    <p>다양한 사용자 경험을 반영한 교육 매뉴얼과 맞춤형 보호 정책 수립을 지원합니다.</p>
+                </article>
             </div>
         </div>
-    </div>
-</div>
+    </section>
 
-</section>
+    <section class="overview-closing overview-reveal">
+        <blockquote class="overview-closing-quote">
+            <p>기술의 발전과 사용자의 안전이 함께 성장하는 생성형 AI 환경을 만들어가겠습니다.</p>
+        </blockquote>
+    </section>
+</main>
+
+<script>
+    (() => {
+        const items = Array.from(document.querySelectorAll('.overview-reveal'));
+        if (!items.length) return;
+
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduceMotion || !('IntersectionObserver' in window)) {
+            items.forEach((item) => item.classList.add('is-visible'));
+            return;
+        }
+
+        document.documentElement.classList.add('has-overview-reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            });
+        }, {
+            threshold: 0.12,
+            rootMargin: '0px 0px -8% 0px'
+        });
+
+        let started = false;
+        const startReveal = () => {
+            if (started) return;
+            started = true;
+            items.forEach((item) => observer.observe(item));
+        };
+
+        if (document.body.scrollTop > 2 || document.documentElement.scrollTop > 2) {
+            startReveal();
+        } else {
+            window.addEventListener('scroll', startReveal, { once: true, passive: true });
+            document.body.addEventListener('scroll', startReveal, { once: true, passive: true });
+        }
+    })();
+</script>
 {% endblock %}

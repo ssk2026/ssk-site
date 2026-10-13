@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path
 from django.views.generic.base import RedirectView
 from . import views
 
@@ -13,6 +13,12 @@ urlpatterns = [
     path('about/overview/', views.overview, name='overview'),
     path('about/people/', views.people, name='people'),
     path('about/intro/', views.about_intro, name='about_intro'),
+
+    # Participants
+    path('participants/organization/', views.participants_organization, name='participants_organization'),
+    path('participants/professors/', views.participants_professors, name='participants_professors'),
+    path('participants/postdocs/', views.participants_postdocs, name='participants_postdocs'),
+    path('participants/assistants/', views.participants_assistants, name='participants_assistants'),
 
     # Performance
     path('performance/papers/', views.performance_papers, name='performance_papers'),
@@ -31,9 +37,4 @@ urlpatterns = [
     path('notice/<int:id>/', views.notice_detail, name='notice_detail'),
     path('contact/', views.contact, name='contact'),
 
-    # Admin CRUD
-    path('events/create/', views.event_create, name='event_create'),
-    path('events/<int:id>/update/', views.event_update, name='event_update'),
-    path('events/<int:id>/delete/', views.event_delete, name='event_delete'),
-    path('ckeditor/', include('ckeditor_uploader.urls')),
 ]

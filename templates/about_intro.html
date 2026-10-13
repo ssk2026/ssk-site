@@ -17,9 +17,6 @@
         <li class="{% if request.resolver_match.url_name == 'about_intro' %}active{% endif %}">
             <a href="{% url 'about_intro' %}">연구단장 인사말</a>
         </li>
-        <li class="{% if request.resolver_match.url_name == 'people' %}active{% endif %}">
-            <a href="{% url 'people' %}">연구단 구성</a>
-        </li>
     </ul>
 </nav>
 

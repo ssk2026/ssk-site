@@ -1,7 +1,1 @@
-from django import forms
-from .models import Event
-
-class EventForm(forms.ModelForm):
-    class Meta:
-        model = Event
-        fields = '__all__'
+"""The public site contains no data-submission forms."""

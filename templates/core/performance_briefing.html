@@ -6,7 +6,7 @@
 <section class="sub-hero sub-hero--performance">
     <div class="sub-hero-overlay"></div>
     <div class="sub-hero-content">
-        <h1>연구성과</h1>
+        <h1>연구 성과</h1>
     </div>
 </section>
 
@@ -49,12 +49,10 @@
 
             {% for briefing in page_obj %}
             <div class="briefing-item">
-                <div class="briefing-img">
-                    {% for img in briefing.images.all %}
-                    {% if img.is_main %}
-                    <img src="{{ img.image.url }}" alt="{{ briefing.title }}">
+                <div class="briefing-img briefing-img--poster">
+                    {% if briefing.main_image %}
+                    <img src="{{ briefing.main_image }}" alt="{{ briefing.title }}">
                     {% endif %}
-                    {% endfor %}
                 </div>
 
                 <div class="briefing-info">
@@ -64,16 +62,16 @@
                         </a>
                     </h3>
 
-                    <div class="briefing-meta">
-                        {{ briefing.author }} | 조회 {{ briefing.views }} | {{ briefing.created_at }}
-                    </div>
-
                     <p>
-                        {{ briefing.content|striptags|truncatewords:20 }}
+                        {{ briefing.content_html|striptags|truncatewords:20 }}
                     </p>
                 </div>
             </div>
             {% endfor %}
+
+            {% if not page_obj %}
+            <p class="empty-state">등록된 학술대회 발표가 없습니다.</p>
+            {% endif %}
 
             <div class="pagination">
                 {% if page_obj.has_previous %}

@@ -1,4 +1,4 @@
-﻿{% extends "base.html" %}
+{% extends "base.html" %}
 {% load static %}
 
 {% block content %}
@@ -44,11 +44,9 @@
             {% for event in page_obj %}
             <div class="briefing-item">
                 <div class="briefing-img">
-                    {% for img in event.images.all %}
-                    {% if img.is_main %}
-                    <img src="{{ img.image.url }}" alt="{{ event.title }}">
+                    {% if event.main_image %}
+                    <img src="{{ event.main_image }}" alt="{{ event.title }}">
                     {% endif %}
-                    {% endfor %}
                 </div>
 
                 <div class="briefing-info">
@@ -58,16 +56,16 @@
                         </a>
                     </h3>
 
-                    <div class="briefing-meta">
-                        {{ event.author }} | 조회 {{ event.views }} | {{ event.created_at }}
-                    </div>
-
                     <p>
-                        {{ event.content|striptags|truncatewords:20 }}
+                        {{ event.content_html|striptags|truncatewords:20 }}
                     </p>
                 </div>
             </div>
             {% endfor %}
+
+            {% if not page_obj %}
+            <p class="empty-state">등록된 주요 행사가 없습니다.</p>
+            {% endif %}
 
             <div class="pagination">
                 {% if page_obj.has_previous %}

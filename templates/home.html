@@ -1,85 +1,246 @@
 ﻿{% extends 'base.html' %}
 {% load static %}
 
+{% block body_class %}home-page{% endblock %}
+
 {% block content %}
-
-<section class="hero hero--home hero--main">
-    {% for img in hero_images %}
-    <div class="hero-slide {% if forloop.first %}active{% endif %}"
-         style="background-image: url('{{ img.image.url }}');">
-        <div class="hero-overlay"></div>
+<script>document.documentElement.classList.add('motion-ready');</script>
+<div class="home-frame-meta" aria-hidden="true">
+    <span class="home-frame-side-label">HUMAN-CENTERED AI</span>
+    <div class="home-frame-progress">
+        <span class="home-frame-number">01</span>
+        <i></i><i></i><i></i>
     </div>
-    {% endfor %}
-
-    <div class="hero-main-inner">
-        <div class="hero-main-text">
-            <h1>생성형 AI 사용자 위험 대응 연구단</h1>
-            <p>사용자 관점에서 생성형 AI의 역기능을 연구합니다</p>
+    <span class="home-frame-bottom-label">GEN AI USER RISK</span>
+</div>
+<section class="home-hero">
+    <div class="home-hero-grid"></div>
+    <div class="home-hero-inner">
+        <div class="home-hero-copy">
+            <div class="hero-title">
+                <h1>Gen AI User Risk<br><span class="hero-title-second">Research Group</span></h1>
+            </div>
+            <div class="hero-support">
+                <p class="hero-description">사용자 관점에서 생성형 AI의 역기능을 탐색하고,<span class="hero-description-line">누구도 기술 변화에서 소외되지 않도록 실효성 있는 대응정책을 연구합니다.</span></p>
+            </div>
         </div>
+    </div>
+    <button class="hero-scroll-cue" type="button" aria-label="다음 화면으로 이동">
+        <span aria-hidden="true">↓</span>
+    </button>
+</section>
 
-        <div class="hero-menu-grid">
-            <a href="{% url 'overview' %}" class="hero-menu-card">
-                <h3>비전 및 목표</h3>
-                <span>+</span>
+<section class="home-story-slide">
+    <div class="story-page-heading">
+        <p><span class="story-heading-first">AI 기술보다</span><strong><em><i>‘</i>사용자<i>’</i></em>를 먼저 봅니다</strong></p>
+        <a href="{% url 'contact' %}" class="story-contact-link"><span>사업단 문의</span><b aria-hidden="true"><i>→</i></b></a>
+    </div>
+    <div class="story-carousel" aria-label="연구단 주요 메뉴">
+        <div class="story-carousel-stage">
+            <a href="{% url 'overview' %}" class="story-carousel-card is-active" style="--card-image: url('{% static 'images/overview.jpg' %}');">
+                <small>01 · ABOUT</small><strong>연구단 소개</strong><span>비전과 연구 목표 알아보기 →</span>
             </a>
-
-            <a href="{% url 'people' %}" class="hero-menu-card">
-                <h3>연구단 구성</h3>
-                <span>+</span>
+            <a href="{% url 'performance_business_plan' %}" class="story-carousel-card is-next" style="--card-image: url('{% static 'images/performance.jpg' %}');">
+                <small>02 · RESEARCH</small><strong>연구 성과</strong><span>연구계획과 성과 확인하기 →</span>
             </a>
-
-            <a href="{% url 'performance_papers' %}" class="hero-menu-card">
-                <h3>연구성과</h3>
-                <span>+</span>
+            <a href="{% url 'events' %}" class="story-carousel-card is-far" style="--card-image: url('{% static 'images/event.jpg' %}');">
+                <small>03 · EVENTS</small><strong>주요 행사</strong><span>연구단 행사 둘러보기 →</span>
             </a>
-
-            <a href="{% url 'events' %}" class="hero-menu-card">
-                <h3>주요행사</h3>
-                <span>+</span>
+            <a href="{% url 'notice_list' %}" class="story-carousel-card is-prev" style="--card-image: url('{% static 'images/information.jpg' %}');">
+                <small>04 · NOTICE</small><strong>정보마당</strong><span>공지사항과 새로운 소식 →</span>
             </a>
+            <button class="story-carousel-arrow story-carousel-arrow--prev" type="button" aria-label="이전 메뉴">‹</button>
+            <button class="story-carousel-arrow story-carousel-arrow--next" type="button" aria-label="다음 메뉴">›</button>
         </div>
+        <div class="story-carousel-dots" aria-hidden="true"><i class="is-current"></i><i></i><i></i><i></i></div>
+    </div>
+    <span class="home-scroll-cue" aria-hidden="true">↓</span>
+</section>
+
+<section class="home-resource-slide">
+    <div class="resource-showcase">
+        <article class="resource-column">
+            <div class="resource-column-head">
+                <h2>학술자료집</h2>
+                <a href="{% url 'performance_briefing' %}" aria-label="학술자료집 더 보기">+</a>
+            </div>
+            <a href="{% url 'performance_briefing' %}" class="resource-promo-card">
+                <div class="resource-cover resource-cover--proceedings">
+                    <small>GEN AI USER RISK</small>
+                    <strong>ACADEMIC<br>PROCEEDINGS</strong>
+                    <span>SSK RESEARCH GROUP</span>
+                </div>
+                <div class="resource-card-copy">
+                    <small>ACADEMIC MATERIALS</small>
+                    <h3>연구단 학술자료집</h3>
+                    <p>학술대회 발표와 연구 교류의 주요 성과를 확인해 보세요.</p>
+                    <span>자료 살펴보기&nbsp; →</span>
+                </div>
+            </a>
+        </article>
+        <article class="resource-column">
+            <div class="resource-column-head">
+                <h2>연구보고서</h2>
+                <a href="{% url 'performance_business_plan' %}" aria-label="연구보고서 더 보기">+</a>
+            </div>
+            <a href="{% url 'performance_business_plan' %}" class="resource-promo-card">
+                <div class="resource-cover resource-cover--report">
+                    <small>2025—2028</small>
+                    <strong>RESEARCH<br>REPORT</strong>
+                    <span>HUMAN-CENTERED AI</span>
+                </div>
+                <div class="resource-card-copy">
+                    <small>RESEARCH REPORT</small>
+                    <h3>생성형 AI 사용자 위험 연구보고서</h3>
+                    <p>연구 목표와 중장기 계획, 정책 제언을 한눈에 살펴보세요.</p>
+                    <span>보고서 확인하기&nbsp; →</span>
+                </div>
+            </a>
+        </article>
     </div>
 </section>
 
 <script>
-(function () {
-    const slides = document.querySelectorAll(".hero-slide");
-    const heroMenu = document.querySelector(".hero-menu-grid");
-    const heroText = document.querySelector(".hero-main-text");
+window.addEventListener('DOMContentLoaded', function () {
+    const hero = document.querySelector('.home-hero');
+    const story = document.querySelector('.home-story-slide');
+    const footer = document.querySelector('.site-footer');
+    const resources = document.querySelector('.home-resource-slide');
+    const heroScrollCue = document.querySelector('.hero-scroll-cue');
+    const frameMeta = document.querySelector('.home-frame-meta');
+    const storyCarousel = document.querySelector('.story-carousel');
+    const storyCards = Array.from(document.querySelectorAll('.story-carousel-card'));
+    const storyDots = Array.from(document.querySelectorAll('.story-carousel-dots i'));
+    const storyPrev = document.querySelector('.story-carousel-arrow--prev');
+    const storyNext = document.querySelector('.story-carousel-arrow--next');
+    if (!hero || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        if (hero) {
+            hero.classList.add('is-active', 'is-framed');
+            document.body.classList.add('hero-framed');
+        }
+        return;
+    }
 
-    if (slides.length) {
-        let index = 0;
+    let hasLeftHero = false;
+    let slideIndex = 0;
+    let isSlideMoving = false;
+    const slideSections = [hero, story, resources].filter(Boolean);
 
-        function showSlide(i) {
-            slides.forEach(slide => slide.classList.remove("active"));
-            slides[i].classList.add("active");
+    let storyCardIndex = 0;
+    let storyTimer;
+    function renderStoryCards() {
+        storyCards.forEach(function (card, index) {
+            const distance = (index - storyCardIndex + storyCards.length) % storyCards.length;
+            card.classList.remove('is-active', 'is-next', 'is-prev', 'is-far');
+            card.classList.add(distance === 0 ? 'is-active' : distance === 1 ? 'is-next' : distance === storyCards.length - 1 ? 'is-prev' : 'is-far');
+        });
+        storyDots.forEach(function (dot, index) { dot.classList.toggle('is-current', index === storyCardIndex); });
+    }
+    function moveStoryCards(direction) {
+        storyCardIndex = (storyCardIndex + direction + storyCards.length) % storyCards.length;
+        renderStoryCards();
+    }
+    function startStoryCarousel() {
+        window.clearInterval(storyTimer);
+        storyTimer = window.setInterval(function () { moveStoryCards(1); }, 3000);
+    }
+    if (storyCards.length > 1) {
+        renderStoryCards();
+        startStoryCarousel();
+        if (storyPrev) storyPrev.addEventListener('click', function () { moveStoryCards(-1); startStoryCarousel(); });
+        if (storyNext) storyNext.addEventListener('click', function () { moveStoryCards(1); startStoryCarousel(); });
+    }
+
+    function updateFrameMeta(forcedIndex) {
+        if (!frameMeta) return;
+        const viewportMiddle = window.scrollY + window.innerHeight * 0.5;
+        let index = typeof forcedIndex === 'number' ? forcedIndex : 0;
+        if (typeof forcedIndex !== 'number') {
+            if (resources && viewportMiddle >= resources.offsetTop) index = 2;
+            else if (story && viewportMiddle >= story.offsetTop) index = 1;
         }
 
-        setInterval(function () {
-            index = (index + 1) % slides.length;
-            showSlide(index);
-        }, 5000);
+        const labels = [
+            ['HUMAN-CENTERED AI', 'GEN AI USER RISK'],
+            ['LATEST EVENT', 'RESEARCH GROUP NEWS'],
+            ['PUBLICATIONS', 'SSK RESEARCH GROUP']
+        ];
+        frameMeta.querySelector('.home-frame-side-label').textContent = labels[index][0];
+        frameMeta.querySelector('.home-frame-bottom-label').textContent = labels[index][1];
+        frameMeta.querySelector('.home-frame-number').textContent = String(index + 1).padStart(2, '0');
+        frameMeta.querySelectorAll('.home-frame-progress i').forEach(function (dot, dotIndex) {
+            dot.classList.toggle('is-current', dotIndex === index);
+        });
     }
 
-    if (heroMenu && heroText) {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.intersectionRatio < 0.7) {
-                        heroMenu.classList.add("show");
-                    } else {
-                        heroMenu.classList.remove("show");
-                    }
-                });
-            },
-            {
-                threshold: [0.35, 0.5, 0.7, 1]
-            }
-        );
-
-        observer.observe(heroText);
+    function moveToSlide(nextIndex) {
+        if (isSlideMoving || nextIndex < 0 || nextIndex >= slideSections.length) return;
+        isSlideMoving = true;
+        slideIndex = nextIndex;
+        document.body.classList.toggle('home-light-slide', slideIndex > 0);
+        hero.classList.add('is-framed');
+        document.body.classList.add('hero-framed');
+        updateFrameMeta(slideIndex);
+        slideSections[slideIndex].scrollIntoView({ behavior: 'smooth', block: 'start' });
+        window.setTimeout(function () {
+            slideSections[slideIndex].scrollIntoView({ behavior: 'auto', block: 'start' });
+            isSlideMoving = false;
+            updateFrameMeta(slideIndex);
+        }, 900);
     }
-})();
+
+    function playHeroMotion() {
+        hero.classList.remove('is-active');
+        void hero.offsetWidth;
+        requestAnimationFrame(function () {
+            hero.classList.add('is-active');
+        });
+    }
+
+    requestAnimationFrame(playHeroMotion);
+    if (heroScrollCue && story) {
+        heroScrollCue.addEventListener('click', function () {
+            moveToSlide(1);
+        });
+    }
+    updateFrameMeta();
+    window.setTimeout(function () {
+        hero.classList.add('is-framed');
+        document.body.classList.add('hero-framed');
+    }, 4000);
+
+    window.addEventListener('scroll', function () {
+        if (!isSlideMoving) {
+            const viewportMiddle = window.scrollY + window.innerHeight * 0.5;
+            slideIndex = 0;
+            if (resources && viewportMiddle >= resources.offsetTop) slideIndex = 2;
+            else if (story && viewportMiddle >= story.offsetTop) slideIndex = 1;
+            document.body.classList.toggle('home-light-slide', slideIndex > 0);
+            updateFrameMeta(slideIndex);
+        }
+        if (window.scrollY > 80) {
+            hero.classList.add('is-framed');
+            document.body.classList.add('hero-framed');
+        }
+        if (window.scrollY > Math.min(hero.offsetHeight * 0.65, 430)) {
+            hasLeftHero = true;
+        }
+
+        if (window.scrollY < 60 && hasLeftHero) {
+            hasLeftHero = false;
+            playHeroMotion();
+        }
+    }, { passive: true });
+    window.addEventListener('wheel', function (event) {
+        if (document.body.classList.contains('menu-open')) return;
+        event.preventDefault();
+        if (isSlideMoving || Math.abs(event.deltaY) < 1) return;
+        const direction = event.deltaY > 0 ? 1 : -1;
+        const nextIndex = Math.max(0, Math.min(slideSections.length - 1, slideIndex + direction));
+        if (nextIndex === slideIndex) return;
+        moveToSlide(nextIndex);
+    }, { passive: false });
+    window.addEventListener('resize', updateFrameMeta, { passive: true });
+});
 </script>
-
 {% endblock %}

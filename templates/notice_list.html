@@ -21,13 +21,12 @@
 
 <section class="subpage-wrap">
     <div class="container">
-        <div class="notice-wrapper">
-            <h2 class="page-title">공지사항</h2>
-
+        <h2 class="page-title notice-page-title">공지사항</h2>
+        <div class="notice-wrapper notice-content-card">
             <div class="notice-top">
                 <p>총 <span>{{ total_count }}</span>건이 등록되었습니다.</p>
                 <form method="get" class="notice-search">
-                    <input type="text" name="q" value="{{ q }}" placeholder="검색어 입력">
+                    <input type="text" name="q" value="{{ q|default_if_none:'' }}" placeholder="검색어 입력">
                     <button type="submit">검색</button>
                 </form>
             </div>
@@ -39,7 +38,6 @@
                         <th>제목</th>
                         <th>작성자</th>
                         <th>작성일</th>
-                        <th>조회수</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,10 +47,9 @@
                         <td class="title"><a href="{% url 'notice_detail' notice.id %}">{{ notice.title }}</a></td>
                         <td>{{ notice.author }}</td>
                         <td>{{ notice.created_at }}</td>
-                        <td>{{ notice.views }}</td>
                     </tr>
                     {% empty %}
-                    <tr><td colspan="5">등록된 공지사항이 없습니다.</td></tr>
+                    <tr><td colspan="4">등록된 공지사항이 없습니다.</td></tr>
                     {% endfor %}
                 </tbody>
             </table>

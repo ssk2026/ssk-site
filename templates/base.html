@@ -5,13 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SSK 연구단</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=18">
-    <style>
-        .main-nav { display: none; }
-        .menu-toggle { display: flex; }
-    </style>
+    <meta name="description" content="동국대학교 SSK 생성형AI 사용자 취약성 대응정책 연구단">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=20">
+    <link rel="stylesheet" href="{% static 'css/theme-v2.css' %}?v=128">
 </head>
-<body>
+<body class="{% block body_class %}{% endblock %}">
 
 <header class="main-header">
     <div class="container header-inner">
@@ -21,10 +19,47 @@
                 <span class="brand-divider"></span>
                 <span class="lab-name">
                     <span>SSK(한국사회과학)</span>
-                    <span>생성형 AI 사용자 위험 대응 연구단</span>
+                    <span>생성형AI 사용자 취약성 대응정책 연구단</span>
                 </span>
             </a>
         </div>
+
+        <nav class="main-nav" aria-label="주요 메뉴">
+            <ul class="menu">
+                <li class="dropdown">
+                    <a href="{% url 'overview' %}">연구단 소개</a>
+                    <ul class="submenu">
+                        <li><a href="{% url 'overview' %}">비전 및 목표</a></li>
+                        <li><a href="{% url 'about_intro' %}">연구단장 인사말</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="{% url 'participants_organization' %}">참여 인력</a>
+                    <ul class="submenu">
+                        <li><a href="{% url 'participants_organization' %}">조직도</a></li>
+                        <li><a href="{% url 'participants_professors' %}">교수진</a></li>
+                        <li><a href="{% url 'participants_postdocs' %}">박사후연구원</a></li>
+                        <li><a href="{% url 'participants_assistants' %}">연구보조원</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="{% url 'performance_business_plan' %}">연구 성과</a>
+                    <ul class="submenu">
+                        <li><a href="{% url 'performance_business_plan' %}">연구계획서</a></li>
+                        <li><a href="{% url 'performance_papers' %}">학술 논문 및 저서</a></li>
+                        <li><a href="{% url 'performance_briefing' %}">학술대회 발표</a></li>
+                    </ul>
+                </li>
+                <li><a href="{% url 'events' %}">주요 행사</a></li>
+                <li class="dropdown">
+                    <a href="{% url 'notice_list' %}">정보마당</a>
+                    <ul class="submenu">
+                        <li><a href="{% url 'notice_list' %}">공지사항</a></li>
+                        <li><a href="{% url 'contact' %}">문의</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
 
         <button class="menu-toggle" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobileMenu">
             <span></span>
@@ -44,12 +79,21 @@
             <ul>
                 <li><a href="{% url 'overview' %}">비전 및 목표</a></li>
                 <li><a href="{% url 'about_intro' %}">연구단장 인사말</a></li>
-                <li><a href="{% url 'people' %}">연구단 구성</a></li>
             </ul>
         </li>
 
         <li>
-            <a href="{% url 'performance_business_plan' %}">연구성과</a>
+            <a href="{% url 'participants_organization' %}">참여 인력</a>
+            <ul>
+                <li><a href="{% url 'participants_organization' %}">조직도</a></li>
+                <li><a href="{% url 'participants_professors' %}">교수진</a></li>
+                <li><a href="{% url 'participants_postdocs' %}">박사후연구원</a></li>
+                <li><a href="{% url 'participants_assistants' %}">연구보조원</a></li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="{% url 'performance_business_plan' %}">연구 성과</a>
             <ul>
                 <li><a href="{% url 'performance_business_plan' %}">연구계획서</a></li>
                 <li><a href="{% url 'performance_papers' %}">학술 논문 및 저서</a></li>
@@ -78,9 +122,13 @@
 
 <footer class="site-footer">
     <div class="footer-inner">
+        <div class="footer-brand">
+            <strong>SSK 생성형AI 사용자 취약성 대응정책 연구단</strong>
+            <span>DONGGUK UNIVERSITY · SSK RESEARCH GROUP</span>
+        </div>
         <div class="footer-right">
-            <p><strong>[04620]</strong> 서울특별시 중구 필동로 1길 30 동국대학교 경찰사법대학 경찰행정학부 법심리연구소</p>
-            <p>E-mail: (미정)</p>
+            <p><strong>[04620]</strong> 서울특별시 중구 필동로 1길 30 동국대학교 경찰사법대학 법심리연구소</p>
+            <p>E-mail: psych.law.du@gmail.com</p>
             <p>Copyright &copy; SSK Research Group. All rights reserved.</p>
         </div>
     </div>
@@ -118,6 +166,10 @@
         document.addEventListener('keydown', function (event) {
             if (event.key === 'Escape') closeMenu();
         });
+
+        window.addEventListener('scroll', function () {
+            document.querySelector('.main-header').classList.toggle('scrolled', window.scrollY > 12);
+        }, { passive: true });
     })();
 </script>
 </body>

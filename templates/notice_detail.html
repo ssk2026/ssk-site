@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<section class="sub-hero">
+<section class="sub-hero sub-hero--info">
     <div class="sub-hero-overlay"></div>
     <div class="sub-hero-content">
         <h1>정보 마당</h1>
@@ -25,7 +25,7 @@
         <div class="subpage-content subpage-content--full">
             <div style="margin-bottom:25px;">
                 <a href="{% url 'notice_list' %}"
-                   style="padding:8px 18px; background:#ff7a00; color:white; text-decoration:none; border-radius:4px;">
+                   style="padding:8px 18px; background:#7657ff; color:white; text-decoration:none; border-radius:4px;">
                     목록으로
                 </a>
             </div>
@@ -34,11 +34,11 @@
             <div class="title-line"></div>
 
             <div class="briefing-meta">
-                {{ notice.author }} | 조회 {{ notice.views }} | {{ notice.created_at }}
+                {{ notice.author }} | {{ notice.created_at }}
             </div>
 
             <div style="line-height:1.8; margin-top:25px;">
-                {{ notice.content|safe }}
+                {{ notice.content_html|safe }}
             </div>
         </div>
     </div>
