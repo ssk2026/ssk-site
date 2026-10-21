@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 <section class="sub-hero sub-hero--info">
@@ -22,7 +23,7 @@
 <section class="subpage-wrap">
     <div class="container">
         <h2 class="page-title notice-page-title">공지사항</h2>
-        <div class="notice-wrapper notice-content-card">
+        <div class="notice-wrapper notice-content-card"{% if static_export %} data-static-list data-page-size="10"{% endif %}>
             <div class="notice-top">
                 <p>총 <span>{{ total_count }}</span>건이 등록되었습니다.</p>
                 <form method="get" class="notice-search">
@@ -33,7 +34,7 @@
 
             <table class="notice-table">
                 <thead>
-                    <tr>
+                    <tr{% if static_export %} data-static-item data-search-title="{{ notice.title|escape }}" data-search-content="{{ notice.content_html|striptags|escape }}"{% endif %}>
                         <th>번호</th>
                         <th>제목</th>
                         <th>작성자</th>
@@ -49,12 +50,13 @@
                         <td>{{ notice.created_at }}</td>
                     </tr>
                     {% empty %}
-                    <tr><td colspan="4">등록된 공지사항이 없습니다.</td></tr>
+                    <tr{% if static_export %} data-static-empty{% endif %}><td colspan="4">등록된 공지사항이 없습니다.</td></tr>
                     {% endfor %}
                 </tbody>
             </table>
 
-            <div class="pagination">
+            <div class="pagination"{% if static_export %} data-static-pagination{% endif %}>
+                {% if not static_export %}
                 {% if page_obj.has_previous %}
                 <a href="?page=1&q={{ q }}">처음</a>
                 <a href="?page={{ page_obj.previous_page_number }}&q={{ q }}">이전</a>
@@ -66,8 +68,10 @@
                 <a href="?page={{ page_obj.next_page_number }}&q={{ q }}">다음</a>
                 <a href="?page={{ page_obj.paginator.num_pages }}&q={{ q }}">마지막</a>
                 {% endif %}
+                {% endif %}
             </div>
         </div>
     </div>
 </section>
+{% if static_export %}<script src="{% static 'js/static-list.js' %}"></script>{% endif %}
 {% endblock %}

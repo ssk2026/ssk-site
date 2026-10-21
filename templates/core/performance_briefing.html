@@ -26,7 +26,7 @@
 
 <section class="subpage-wrap">
     <div class="container">
-        <div class="subpage-content subpage-content--full">
+        <div class="subpage-content subpage-content--full"{% if static_export %} data-static-list data-page-size="5"{% endif %}>
             <h2>학술대회 발표</h2>
             <div class="title-line"></div>
 
@@ -48,7 +48,7 @@
             </div>
 
             {% for briefing in page_obj %}
-            <div class="briefing-item">
+            <div class="briefing-item"{% if static_export %} data-static-item data-search-title="{{ briefing.title|escape }}" data-search-content="{{ briefing.content_html|striptags|escape }}"{% endif %}>
                 <div class="briefing-img briefing-img--poster">
                     {% if briefing.main_image %}
                     <img src="{{ briefing.main_image }}" alt="{{ briefing.title }}">
@@ -69,11 +69,12 @@
             </div>
             {% endfor %}
 
-            {% if not page_obj %}
-            <p class="empty-state">등록된 학술대회 발표가 없습니다.</p>
+            {% if not page_obj or static_export %}
+            <p class="empty-state{% if page_obj %} static-list-hidden{% endif %}"{% if static_export %} data-static-empty{% endif %}>등록된 학술대회 발표가 없습니다.</p>
             {% endif %}
 
-            <div class="pagination">
+            <div class="pagination"{% if static_export %} data-static-pagination{% endif %}>
+                {% if not static_export %}
                 {% if page_obj.has_previous %}
                 <a href="?page=1&type={{ type }}&q={{ q }}">처음</a>
                 <a href="?page={{ page_obj.previous_page_number }}&type={{ type }}&q={{ q }}">이전</a>
@@ -85,10 +86,13 @@
                 <a href="?page={{ page_obj.next_page_number }}&type={{ type }}&q={{ q }}">다음</a>
                 <a href="?page={{ page_obj.paginator.num_pages }}&type={{ type }}&q={{ q }}">마지막</a>
                 {% endif %}
+                {% endif %}
             </div>
         </div>
     </div>
 </section>
+
+{% if static_export %}<script src="{% static 'js/static-list.js' %}"></script>{% endif %}
 
 {% endblock %}
 

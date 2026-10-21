@@ -1507,3 +1507,6 @@ body.home-page .site-footer .footer-brand span { display: block; white-space: no
         transition: none;
     }
 }
+.static-list-hidden {
+    display: none !important;
+}

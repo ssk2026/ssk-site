@@ -103,9 +103,15 @@ def _filtered_events(request, event_type):
     return events, query, search_type
 
 
+def _is_static_export(request):
+    return request.GET.get("_static") == "1"
+
+
 def event_list(request):
     events, query, search_type = _filtered_events(request, "event")
-    page_obj = Paginator(events, 5).get_page(request.GET.get("page"))
+    static_export = _is_static_export(request)
+    page_size = max(len(events), 1) if static_export else 5
+    page_obj = Paginator(events, page_size).get_page(request.GET.get("page"))
     return render(
         request,
         "events.html",
@@ -114,13 +120,16 @@ def event_list(request):
             "total_count": len(events),
             "q": query,
             "type": search_type,
+            "static_export": static_export,
         },
     )
 
 
 def performance_briefing(request):
     briefings, query, search_type = _filtered_events(request, "briefing")
-    page_obj = Paginator(briefings, 5).get_page(request.GET.get("page"))
+    static_export = _is_static_export(request)
+    page_size = max(len(briefings), 1) if static_export else 5
+    page_obj = Paginator(briefings, page_size).get_page(request.GET.get("page"))
     return render(
         request,
         "core/performance_briefing.html",
@@ -129,6 +138,7 @@ def performance_briefing(request):
             "total_count": len(briefings),
             "q": query,
             "type": search_type,
+            "static_export": static_export,
         },
     )
 
@@ -142,6 +152,7 @@ def event_detail(request, id):
 
 def notice_list(request):
     notices = load_notices()
+    static_export = _is_static_export(request)
     query = request.GET.get("q", "").strip()
     if query:
         lowered_query = query.casefold()
@@ -151,11 +162,17 @@ def notice_list(request):
             if lowered_query in notice["title"].casefold()
         ]
 
-    page_obj = Paginator(notices, 10).get_page(request.GET.get("page"))
+    page_size = max(len(notices), 1) if static_export else 10
+    page_obj = Paginator(notices, page_size).get_page(request.GET.get("page"))
     return render(
         request,
         "notice_list.html",
-        {"page_obj": page_obj, "total_count": len(notices), "q": query},
+        {
+            "page_obj": page_obj,
+            "total_count": len(notices),
+            "q": query,
+            "static_export": static_export,
+        },
     )
 
 

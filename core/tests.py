@@ -35,3 +35,15 @@ class PublicSiteTests(SimpleTestCase):
         self.assertEqual(self.client.get("/admin/").status_code, 404)
         self.assertEqual(self.client.get("/login/").status_code, 404)
         self.assertEqual(self.client.get("/events/create/").status_code, 404)
+
+    def test_static_export_lists_include_all_items_and_client_controls(self):
+        response = self.client.get(reverse("events"), {"_static": "1"})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "data-static-list")
+        self.assertContains(response, "data-static-item", count=5)
+        self.assertContains(response, "js/static-list.js")
+
+        briefing_response = self.client.get(
+            reverse("performance_briefing"), {"_static": "1"}
+        )
+        self.assertContains(briefing_response, "data-static-item", count=3)
