@@ -30,12 +30,18 @@
             <h2>학술 논문 및 저서</h2>
             <div class="title-line"></div>
 
-            <div class="year-block">
-                <h3 class="year-title">2026</h3>
-                <ol class="paper-list">
-                    <li>황진경, 김연수 and 노희주. (2026). 경찰의 AI CCTV 활용에 대한 시민의 수용 의사. <em>한국경찰학회보, 28</em>(1), 195-226.</li>
-                </ol>
-            </div>
+            {% for year, papers in papers_by_year.items %}
+                <div class="year-block">
+                    <h3 class="year-title">{{ year }}</h3>
+                    <ol class="paper-list">
+                        {% for paper in papers %}
+                            <li>{{ paper.citation_html|safe }}</li>
+                        {% endfor %}
+                    </ol>
+                </div>
+            {% empty %}
+                <p class="empty-list-message">등록된 논문 및 저서가 없습니다.</p>
+            {% endfor %}
         </div>
     </div>
 </section>

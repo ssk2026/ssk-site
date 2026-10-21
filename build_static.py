@@ -77,9 +77,9 @@ def build():
 
     for event in load_events():
         route_name = "briefing_detail" if event["type"] == "briefing" else "event_detail"
-        pages.append((reverse(route_name, args=[event["id"]]), False))
+        pages.append((reverse(route_name, args=[event["slug"]]), False))
     for notice in load_notices():
-        pages.append((reverse("notice_detail", args=[notice["id"]]), False))
+        pages.append((reverse("notice_detail", args=[notice["slug"]]), False))
 
     for url, static_list in pages:
         render_page(client, url, static_list=static_list)

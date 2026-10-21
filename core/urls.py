@@ -27,14 +27,14 @@ urlpatterns = [
 
     # Events
     path('events/', views.event_list, name='events'),
-    path('events/<int:id>/', views.event_detail, name='event_detail'),
+    path('events/<slug:slug>/', views.event_detail, name='event_detail'),
 
     # Briefing detail
-    path('performance/briefing/<int:id>/', views.event_detail, name='briefing_detail'),
+    path('performance/briefing/<slug:slug>/', views.event_detail, name='briefing_detail'),
 
     # Notice / Contact
     path('notice/', views.notice_list, name='notice_list'),
-    path('notice/<int:id>/', views.notice_detail, name='notice_detail'),
+    path('notice/<slug:slug>/', views.notice_detail, name='notice_detail'),
     path('contact/', views.contact, name='contact'),
 
 ]

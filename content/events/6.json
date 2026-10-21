@@ -1,0 +1,12 @@
+{
+  "id": 6,
+  "type": "event",
+  "title": "제21회 법심리연구소 콜로키움: 인간 의사와 동반 성장을 이끄는 협업형 AI 에이전트 강화학습",
+  "author": "관리자",
+  "event_date": "2026-09-02",
+  "created_at": "2026-10-05",
+  "main_image": "/media/events/images/Colloquium.jpg",
+  "content_html": "<section class=\"event-detail-section event-detail-section--overview\"><img class=\"event-detail-photo event-detail-poster\" src=\"/media/events/images/2026-collaborative-agent-poster.png\" alt=\"협업형 AI 에이전트 강화학습 콜로키움 포스터\"><h3>행사 개요</h3><p>의료 현장에서 인간 의사와 대규모 언어모델이 협업할 때 나타나는 성과와 한계를 살펴보고, 인간의 판단을 무조건 따르거나 AI의 답변을 무비판적으로 수용하는 문제를 줄이기 위한 협업형 AI 에이전트의 학습 및 안전 설계 방향을 공유한 콜로키움입니다.</p><dl class=\"event-facts\"><div><dt>주제</dt><dd>인간 의사와 동반 성장을 이끄는 협업형 AI 에이전트 강화학습</dd></div><div><dt>일시</dt><dd>2026년 9월 2일(수) 16:00~17:30</dd></div><div><dt>장소</dt><dd>동국대학교 서울캠퍼스 혜화관 222호</dd></div><div><dt>주최</dt><dd>동국대학교 경찰사법대학 법심리연구소 · 동국대학교 사회과학연구(SSK) 사업단</dd></div><div><dt>후원</dt><dd>한국연구재단</dd></div><div><dt>강연자</dt><dd>여진영 교수(연세대학교 인공지능학과)</dd></div></dl><div class=\"event-discussants\"><h4>강연자 소개</h4><p>연세대학교 인공지능학과 부교수이자 LangAGI Lab 연구책임자로, 대규모 언어모델과 AI 에이전트, 인간-AI 협업을 연구하고 있습니다. 포항공과대학교에서 박사학위를 받았으며 Adobe Research와 SK Telecom AI에서 근무했습니다.</p></div></section><section class=\"event-detail-section\"><p class=\"event-section-label\">강연 개요</p><h3>안전하게 협업 가능한 AI 에이전트</h3><p>발표에서는 안과 임상 추론 과제를 활용한 인간-AI 협업 연구를 바탕으로 협업이 인간 단독 판단보다 성능을 높일 수 있지만, AI 단독 성능에는 미치지 못하는 경우가 있음을 소개했습니다. 그 원인으로 AI의 동조 편향과 환각, 인간의 자동화 편향 및 과도한 상호 신뢰를 제시하고, 이를 개선하기 위한 협업 시뮬레이션과 에이전트 강화학습 방법을 다뤘습니다.</p><div class=\"event-program\"><div><span>01</span><strong>인간-AI 협업의 성과와 실패</strong><p>의료 임상 추론 실험을 통해 협업의 성능 변화와 인간·AI의 행동 패턴을 분석합니다.</p></div><div><span>02</span><strong>협업 시뮬레이션과 에이전트 학습</strong><p>올바른 동조와 반박을 평가하는 시뮬레이션을 구축하고, 인간의 확신 수준과 모델의 협업 스타일을 반영한 학습 방향을 살펴봅니다.</p></div><div><span>03</span><strong>AI 에이전트 안전 모니터링</strong><p>에이전트의 출력, 행동 궤적과 추론 과정을 관찰해 위험 신호를 찾고 통제 절차로 연결하는 안전 설계를 소개합니다.</p></div></div></section><section class=\"event-detail-section\"><img class=\"event-detail-photo\" src=\"/media/events/images/Colloquium.jpg\" alt=\"제21회 협업형 AI 에이전트 강화학습 콜로키움 단체사진\"><p class=\"event-section-label\">행사 현장</p><h3>제21회 콜로키움 단체사진</h3><p>강연자와 참여 연구진이 협업형 AI 에이전트의 학습과 안전한 인간-AI 협업 방향을 함께 논의했습니다.</p></section>",
+  "attachments": [],
+  "published": true
+}

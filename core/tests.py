@@ -1,7 +1,8 @@
 from django.test import SimpleTestCase
 from django.urls import reverse
+from unittest.mock import patch
 
-from .content import load_events, load_notices
+from .content import load_events, load_notices, load_papers
 
 
 class PublicSiteTests(SimpleTestCase):
@@ -15,6 +16,7 @@ class PublicSiteTests(SimpleTestCase):
         )
         self.assertEqual(briefings[-1]["id"], 9)
         self.assertEqual(load_notices(), [])
+        self.assertEqual(len(load_papers()), 1)
 
     def test_event_list_and_detail_use_json_content(self):
         list_response = self.client.get(reverse("events"))
@@ -47,3 +49,22 @@ class PublicSiteTests(SimpleTestCase):
             reverse("performance_briefing"), {"_static": "1"}
         )
         self.assertContains(briefing_response, "data-static-item", count=3)
+
+    def test_unpublished_content_is_hidden(self):
+        self.assertTrue(all(item.get("published", True) for item in load_events()))
+        self.assertTrue(all(item.get("published", True) for item in load_papers()))
+
+    @patch("core.views.load_notices")
+    def test_static_notice_rows_have_search_metadata(self, mocked_load_notices):
+        mocked_load_notices.return_value = [
+            {
+                "slug": "sample-notice",
+                "title": "테스트 공지",
+                "author": "관리자",
+                "created_at": "2026-10-21",
+                "content_html": "<p>공지 본문</p>",
+            }
+        ]
+        response = self.client.get(reverse("notice_list"), {"_static": "1"})
+        self.assertContains(response, "data-static-item", count=1)
+        self.assertContains(response, 'data-search-title="테스트 공지"')

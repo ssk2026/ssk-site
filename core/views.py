@@ -7,7 +7,7 @@ from django.http import Http404
 from django.shortcuts import render
 from django.utils.html import strip_tags
 
-from .content import find_by_id, load_events, load_notices
+from .content import find_by_slug, load_events, load_notices, load_papers
 
 
 def home(request):
@@ -43,7 +43,14 @@ def participants_assistants(request):
 
 
 def performance_papers(request):
-    return render(request, "core/performance_papers.html")
+    papers_by_year = {}
+    for paper in load_papers():
+        papers_by_year.setdefault(paper["year"], []).append(paper)
+    return render(
+        request,
+        "core/performance_papers.html",
+        {"papers_by_year": papers_by_year},
+    )
 
 
 def performance_business_plan(request):
@@ -143,8 +150,8 @@ def performance_briefing(request):
     )
 
 
-def event_detail(request, id):
-    event = find_by_id(load_events(), id)
+def event_detail(request, slug):
+    event = find_by_slug(load_events(), slug)
     if event is None:
         raise Http404("해당 게시물을 찾을 수 없습니다.")
     return render(request, "event_detail.html", {"event": event})
@@ -176,8 +183,8 @@ def notice_list(request):
     )
 
 
-def notice_detail(request, id):
-    notice = find_by_id(load_notices(), id)
+def notice_detail(request, slug):
+    notice = find_by_slug(load_notices(), slug)
     if notice is None:
         raise Http404("해당 공지사항을 찾을 수 없습니다.")
     return render(request, "notice_detail.html", {"notice": notice})

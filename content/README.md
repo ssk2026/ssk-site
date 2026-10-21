@@ -1,35 +1,27 @@
-# JSON content guide
+# Content management
 
-The public site reads content directly from the JSON files in this directory.
-There is no web admin page, login, or browser-based upload feature.
+Public content is stored as one JSON file per entry. Pages CMS edits these
+files through a browser and commits each change to GitHub. Cloudflare Pages
+then rebuilds the public site automatically.
 
-## Editing content
+## Directories
 
-1. Make a backup copy of the JSON file you are changing.
-2. Add or edit an object in `events.json` or `notices.json`.
-3. Keep every `id` unique and use double quotes around JSON strings.
-4. Put images and attachments under `media/` and use a `/media/...` path.
-5. Run `python manage.py check_content` before publishing the change.
+- `events/`: major events
+- `briefings/`: conference presentations
+- `notices/`: notices
+- `papers/`: academic papers and books
 
-Changes are read on the next request, so the web process does not need to be
-restarted after a valid JSON edit.
+The filename becomes the public URL slug. Existing numeric filenames preserve
+the current URLs. New files receive a timestamp filename automatically.
 
-## Event fields
+Set `published` to `false` to keep an entry as a draft. Optional empty fields
+are handled by the site, and uploaded assets are stored under `media/events/`.
 
-- `id`: unique integer
-- `type`: `event` or `briefing`
-- `title`: title shown in lists and detail pages
-- `author`: display name, normally `관리자`
-- `event_date`: event date in `YYYY-MM-DD` form, or an empty string
-- `created_at`: publication date in `YYYY-MM-DD` form
-- `main_image`: thumbnail path, or an empty string
-- `content_html`: trusted HTML for the detail page
-- `attachments`: list of objects with `name` and `url`
+For local validation and preview:
 
-## Notice fields
+```powershell
+python manage.py check_content
+python manage.py runserver
+```
 
-- `id`: unique integer
-- `title`: notice title
-- `author`: display name
-- `created_at`: publication date in `YYYY-MM-DD` form
-- `content_html`: trusted HTML for the detail page
+See `CONTENT_MANAGEMENT.md` for the browser-based editing workflow.

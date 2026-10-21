@@ -5,7 +5,9 @@ database, web admin, login, or public data-submission forms.
 
 ## Content updates
 
-Edit `content/events.json` or `content/notices.json`, then validate the files:
+Use Pages CMS as described in `CONTENT_MANAGEMENT.md`, or edit the individual
+JSON files under `content/events/`, `content/briefings/`, `content/papers/`, and
+`content/notices/`. Then validate the files:
 
 ```powershell
 .\venv\Scripts\python.exe manage.py check_content

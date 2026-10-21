@@ -34,7 +34,7 @@
 
             <table class="notice-table">
                 <thead>
-                    <tr{% if static_export %} data-static-item data-search-title="{{ notice.title|escape }}" data-search-content="{{ notice.content_html|striptags|escape }}"{% endif %}>
+                    <tr>
                         <th>번호</th>
                         <th>제목</th>
                         <th>작성자</th>
@@ -43,9 +43,9 @@
                 </thead>
                 <tbody>
                     {% for notice in page_obj %}
-                    <tr>
-                        <td>{{ notice.id }}</td>
-                        <td class="title"><a href="{% url 'notice_detail' notice.id %}">{{ notice.title }}</a></td>
+                    <tr{% if static_export %} data-static-item data-search-title="{{ notice.title|escape }}" data-search-content="{{ notice.content_html|striptags|escape }}"{% endif %}>
+                        <td>{{ forloop.revcounter }}</td>
+                        <td class="title"><a href="{% url 'notice_detail' notice.slug %}">{{ notice.title }}</a></td>
                         <td>{{ notice.author }}</td>
                         <td>{{ notice.created_at }}</td>
                     </tr>

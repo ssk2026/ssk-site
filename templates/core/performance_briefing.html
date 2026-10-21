@@ -57,13 +57,13 @@
 
                 <div class="briefing-info">
                     <h3>
-                        <a href="{% url 'briefing_detail' briefing.id %}?page={{ page_obj.number }}">
+                        <a href="{% url 'briefing_detail' briefing.slug %}?page={{ page_obj.number }}">
                             {{ briefing.title }}
                         </a>
                     </h3>
 
                     <p>
-                        {{ briefing.content_html|striptags|truncatewords:20 }}
+                        {{ briefing.summary|default:briefing.content_html|striptags|truncatewords:20 }}
                     </p>
                 </div>
             </div>

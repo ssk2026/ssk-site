@@ -1,0 +1,282 @@
+media:
+  - name: event_images
+    label: 행사 및 발표 사진
+    input: media/events/images
+    output: /media/events/images
+    categories: [image]
+    rename: safe
+  - name: attachments
+    label: 첨부파일
+    input: media/events/files
+    output: /media/events/files
+    categories: [document]
+    rename: safe
+
+settings:
+  content:
+    merge: true
+  commit:
+    identity: user
+    templates:
+      create: "content: {name} 추가"
+      update: "content: {name} 수정"
+      delete: "content: {name} 삭제"
+      rename: "content: {oldFilename} 이름 변경"
+
+content:
+  - name: events
+    label: 주요 행사
+    type: collection
+    path: content/events
+    format: json
+    filename:
+      template: "{year}-{month}-{day}-{hour}{minute}{second}.json"
+      field: false
+    view:
+      fields: [title, event_date, published]
+      primary: title
+      sort: [event_date, created_at, title]
+      search: [title, summary]
+      default:
+        sort: event_date
+        order: desc
+    fields:
+      - name: type
+        label: false
+        type: string
+        default: event
+        hidden: true
+      - name: title
+        label: 행사 제목
+        type: string
+        required: true
+      - name: event_date
+        label: 행사일
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: created_at
+        label: 게시일
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: author
+        label: 작성자
+        type: string
+        default: 관리자
+      - name: published
+        label: 홈페이지에 공개
+        type: boolean
+        default: true
+      - name: summary
+        label: 목록용 간략 설명
+        type: text
+        description: 행사 목록에 표시할 두세 문장의 설명을 입력하세요.
+      - name: main_image
+        label: 목록 썸네일
+        type: image
+        options:
+          media: event_images
+          extensions: [jpg, jpeg, png, webp]
+          rename: safe
+      - name: content_html
+        label: 상세 내용
+        type: rich-text
+        required: true
+        options:
+          format: html
+          media: event_images
+          extensions: [jpg, jpeg, png, webp]
+          rename: safe
+      - name: attachments
+        label: 첨부파일
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{name}"
+        fields:
+          - name: name
+            label: 표시 이름
+            type: string
+            required: true
+          - name: url
+            label: 파일
+            type: file
+            required: true
+            options:
+              media: attachments
+              categories: [document]
+              rename: safe
+
+  - name: briefings
+    label: 학술대회 발표
+    type: collection
+    path: content/briefings
+    format: json
+    filename:
+      template: "{year}-{month}-{day}-{hour}{minute}{second}.json"
+      field: false
+    view:
+      fields: [title, event_date, published]
+      primary: title
+      sort: [event_date, created_at, title]
+      search: [title, summary]
+      default:
+        sort: event_date
+        order: desc
+    fields:
+      - name: type
+        label: false
+        type: string
+        default: briefing
+        hidden: true
+      - name: title
+        label: 발표 제목
+        type: string
+        required: true
+      - name: event_date
+        label: 발표일
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: created_at
+        label: 게시일
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: author
+        label: 작성자
+        type: string
+        default: 관리자
+      - name: published
+        label: 홈페이지에 공개
+        type: boolean
+        default: true
+      - name: summary
+        label: 발표 목록 설명
+        type: text
+      - name: main_image
+        label: 목록 썸네일
+        type: image
+        options:
+          media: event_images
+          extensions: [jpg, jpeg, png, webp]
+          rename: safe
+      - name: content_html
+        label: 상세 내용
+        type: rich-text
+        required: true
+        options:
+          format: html
+          media: event_images
+          extensions: [jpg, jpeg, png, webp]
+          rename: safe
+      - name: attachments
+        label: 첨부파일
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{name}"
+        fields:
+          - name: name
+            label: 표시 이름
+            type: string
+            required: true
+          - name: url
+            label: 파일
+            type: file
+            required: true
+            options:
+              media: attachments
+              categories: [document]
+              rename: safe
+
+  - name: papers
+    label: 학술 논문 및 저서
+    type: collection
+    path: content/papers
+    format: json
+    filename:
+      template: "{year}-{month}-{day}-{hour}{minute}{second}.json"
+      field: false
+    view:
+      fields: [title, year, published]
+      primary: title
+      sort: [year, title]
+      search: [title, citation_html]
+      default:
+        sort: year
+        order: desc
+    fields:
+      - name: title
+        label: 논문·저서 제목
+        type: string
+        required: true
+      - name: year
+        label: 발행 연도
+        type: number
+        required: true
+        default: 2026
+      - name: citation_html
+        label: 전체 서지정보
+        type: rich-text
+        required: true
+        description: 저자, 발행연도, 제목, 학술지명, 권·호와 페이지를 모두 입력하세요.
+        options:
+          format: html
+      - name: published
+        label: 홈페이지에 공개
+        type: boolean
+        default: true
+
+  - name: notices
+    label: 공지사항
+    type: collection
+    path: content/notices
+    format: json
+    exclude: [.gitkeep]
+    filename:
+      template: "{year}-{month}-{day}-{hour}{minute}{second}.json"
+      field: false
+    view:
+      fields: [title, created_at, published]
+      primary: title
+      sort: [created_at, title]
+      search: [title]
+      default:
+        sort: created_at
+        order: desc
+    fields:
+      - name: title
+        label: 공지 제목
+        type: string
+        required: true
+      - name: created_at
+        label: 게시일
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: author
+        label: 작성자
+        type: string
+        default: 관리자
+      - name: published
+        label: 홈페이지에 공개
+        type: boolean
+        default: true
+      - name: content_html
+        label: 본문
+        type: rich-text
+        required: true
+        options:
+          format: html
+          media: event_images
+          extensions: [jpg, jpeg, png, webp]
+          rename: safe

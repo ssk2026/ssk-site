@@ -51,13 +51,13 @@
 
                 <div class="briefing-info">
                     <h3>
-                        <a href="{% url 'event_detail' event.id %}?page={{ page_obj.number }}">
+                        <a href="{% url 'event_detail' event.slug %}?page={{ page_obj.number }}">
                             {{ event.title }}
                         </a>
                     </h3>
 
                     <p>
-                        {{ event.content_html|striptags|truncatewords:20 }}
+                        {{ event.summary|default:event.content_html|striptags|truncatewords:20 }}
                     </p>
                 </div>
             </div>

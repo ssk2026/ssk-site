@@ -31,10 +31,11 @@ branches receive preview deployments.
 
 ## Updating content
 
-1. Edit `content/events.json` or `content/notices.json`.
-2. Add images or PDFs under `media/` and use `/media/...` paths in JSON.
-3. Run `python manage.py check_content` and `python build_static.py`.
-4. Commit and push the changes to GitHub.
+Editors can sign in at `https://app.pagescms.org`, select the
+`ssk2026/ssk-site` repository, and edit content in the browser. Saving an item
+commits it to GitHub and triggers a Cloudflare Pages deployment automatically.
+
+See `CONTENT_MANAGEMENT.md` for the editor setup and handover workflow.
 
 ## Custom domain
 

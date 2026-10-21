@@ -1,0 +1,12 @@
+{
+  "id": 4,
+  "type": "event",
+  "title": "제20회 동국대학교 경찰사법대학 법심리연구소 콜로키움: 생성형 AI 기술의 현재와 미래",
+  "author": "관리자",
+  "event_date": "2025-11-27",
+  "created_at": "2026-03-06",
+  "main_image": "/media/events/images/image02.png",
+  "content_html": "<section class=\"event-detail-section event-detail-section--overview\"><img class=\"event-detail-photo event-detail-poster\" src=\"/media/uploads/2026/03/06/image01_ZQbf54Z.png\" alt=\"생성형 AI 기술의 현재와 미래 행사 안내\"><h3>행사 개요</h3><p>국내 인공지능 전문 기업의 대표를 초청하여 LLM의 기본 원리와 생성형 AI의 국내외 활용 현황을 살펴보고, 기술의 현재 위치와 올바른 사용 방향을 논의한 콜로키움입니다.</p><dl class=\"event-facts\"><div><dt>주제</dt><dd>생성형 AI 기술의 현재와 미래 <span class=\"event-subtitle\">The Present and Future of Generative AI Technology</span></dd></div><div><dt>일시</dt><dd>2025년 11월 27일(목) 14:00</dd></div><div><dt>장소</dt><dd>동국대학교 신공학관 강당(4142호)</dd></div><div><dt>주최</dt><dd>동국대학교 경찰사법대학 법심리연구소 · 동국대학교 사회과학연구(SSK) 사업단</dd></div><div><dt>강연자</dt><dd>박외진 대표((주) 아크릴)</dd></div></dl></section><section class=\"event-detail-section\"><img class=\"event-detail-photo\" src=\"/media/uploads/2026/03/06/image02_gfKeeF5.png\" alt=\"생성형 AI 기술의 현재와 미래 콜로키움 현장\"><p class=\"event-section-label\">행사 현장</p><h3>생성형 AI의 현재와 올바른 활용 방향</h3><p>연구진은 생성형 AI 기술의 발전 과정과 실제 활용 사례를 공유하고, 향후 연구 과제에 필요한 기술적 식견과 책임 있는 사용 자세를 함께 살펴보았습니다.</p></section>",
+  "attachments": [],
+  "published": true
+}
