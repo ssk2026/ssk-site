@@ -29,6 +29,22 @@ Root directory: /
 Every push to `main` then triggers a new production deployment. Pull request
 branches receive preview deployments.
 
+## New Cloudflare Worker setup screen
+
+Cloudflare may show the newer Worker setup screen instead of the Pages form.
+This repository includes `wrangler.jsonc`, so that screen can also deploy the
+same static site. Use:
+
+```text
+Project name: ssk-site
+Build command: python -m pip install -r requirements-deploy.txt && python build_static.py
+Deploy command: npx wrangler deploy
+Preview command: npx wrangler preview
+```
+
+The Worker serves the generated `dist` directory as static assets. Git pushes
+still trigger automatic builds and deployments.
+
 ## Updating content
 
 Editors can sign in at `https://app.pagescms.org`, select the
