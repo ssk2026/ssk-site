@@ -2,8 +2,15 @@
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "ssk-site",
   "compatibility_date": "2026-10-28",
+  "main": "./worker.js",
+  "vars": {
+    "CONTACT_TO_EMAIL": "psych.law.du@gmail.com",
+    "CONTACT_FROM_EMAIL": "SSK 연구단 <contact@genairisk-ssk.com>"
+  },
   "assets": {
     "directory": "./dist/",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"],
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "404-page"
   }

@@ -32,10 +32,13 @@ class PublicSiteTests(SimpleTestCase):
         self.assertEqual(detail_response.status_code, 200)
         self.assertContains(detail_response, "The Present and Future")
 
-    def test_contact_page_has_no_submission_form(self):
+    def test_contact_page_has_email_submission_form(self):
         response = self.client.get(reverse("contact"))
         self.assertEqual(response.status_code, 200)
-        self.assertNotContains(response, "<form")
+        self.assertContains(response, 'action="/api/contact"')
+        self.assertContains(response, 'name="email"')
+        self.assertContains(response, 'name="message"')
+        self.assertContains(response, 'name="consent"')
         self.assertContains(response, "mailto:psych.law.du@gmail.com")
 
     def test_admin_and_login_routes_are_not_exposed(self):
