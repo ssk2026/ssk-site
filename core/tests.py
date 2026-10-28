@@ -6,6 +6,11 @@ from .content import load_events, load_notices, load_papers
 
 
 class PublicSiteTests(SimpleTestCase):
+    def test_home_starts_with_doctype_without_bom(self):
+        response = self.client.get(reverse("home"))
+        self.assertNotIn(b"\xef\xbb\xbf", response.content[:16])
+        self.assertTrue(response.content.lstrip().startswith(b"<!DOCTYPE html>"))
+
     def test_json_content_is_valid(self):
         self.assertEqual(len(load_events("event")), 5)
         briefings = load_events("briefing")
