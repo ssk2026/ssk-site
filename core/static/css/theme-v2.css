@@ -1275,6 +1275,7 @@ body.home-page .site-footer { scroll-snap-align: start; scroll-snap-stop: always
 .resource-card-copy > span { margin-top: auto; color: #e86f09; font-size: 14px; font-weight: 850; }
 .resource-promo-card--disabled .resource-card-copy > span { display: inline-flex; align-self: flex-start; padding: 8px 12px; border-radius: 8px; background: #fff0e3; color: #d85e00; }
 .notice-attachment-list { margin-top: 40px; padding: 22px 24px; }
+.subpage-content > h2.notice-detail-title { font-size: clamp(26px, 2.6vw, 38px); font-weight: 500; line-height: 1.35 !important; letter-spacing: -.035em; }
 .notice-attachment-list h4 { margin: 0 0 14px; color: var(--v2-ink); font-size: 18px; }
 .notice-attachment-list ul { margin: 0; padding: 0; list-style: none; }
 .notice-attachment-list a { display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; font-weight: 800; }

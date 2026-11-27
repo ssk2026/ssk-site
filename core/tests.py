@@ -18,7 +18,7 @@ class PublicSiteTests(SimpleTestCase):
         self.assertNotContains(response, "resource-status-badge")
         self.assertContains(response, 'resource-promo-card--disabled', count=1)
         self.assertContains(response, 'aria-disabled="true"', count=1)
-        self.assertContains(response, "Generative AI Technology Innovation and User Safety")
+        self.assertContains(response, "생성형 AI 기술혁신과 사용자 안전")
         self.assertContains(response, "2026 동국대 &amp; 부경대 공동학술 세미나 자료집")
 
     def test_footer_uses_original_two_column_layout_without_nrf_logo(self):
@@ -48,6 +48,8 @@ class PublicSiteTests(SimpleTestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "생성형 AI 기술혁신과 사용자 안전")
+        self.assertContains(response, 'class="notice-detail-title"')
+        self.assertNotContains(response, "관리자 |")
         self.assertContains(
             response,
             "/media/events/files/2026-dongguk-pknu-joint-seminar-proceedings.pdf",
