@@ -18,6 +18,12 @@ class PublicSiteTests(SimpleTestCase):
         self.assertContains(response, 'resource-promo-card--disabled', count=2)
         self.assertContains(response, 'aria-disabled="true"', count=2)
 
+    def test_footer_contains_nrf_logo(self):
+        response = self.client.get(reverse("home"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "images/nrf-logo.png")
+        self.assertContains(response, 'alt="한국연구재단 NRF"')
+
     def test_json_content_is_valid(self):
         self.assertEqual(len(load_events("event")), 5)
         briefings = load_events("briefing")
