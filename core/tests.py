@@ -11,6 +11,13 @@ class PublicSiteTests(SimpleTestCase):
         self.assertNotIn(b"\xef\xbb\xbf", response.content[:16])
         self.assertTrue(response.content.lstrip().startswith(b"<!DOCTYPE html>"))
 
+    def test_home_resources_are_marked_as_coming_soon_and_disabled(self):
+        response = self.client.get(reverse("home"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "추후 공개 예정", count=4)
+        self.assertContains(response, 'resource-promo-card--disabled', count=2)
+        self.assertContains(response, 'aria-disabled="true"', count=2)
+
     def test_json_content_is_valid(self):
         self.assertEqual(len(load_events("event")), 5)
         briefings = load_events("briefing")
