@@ -11,21 +11,21 @@ class PublicSiteTests(SimpleTestCase):
         self.assertNotIn(b"\xef\xbb\xbf", response.content[:16])
         self.assertTrue(response.content.lstrip().startswith(b"<!DOCTYPE html>"))
 
-    def test_home_resources_are_marked_as_coming_soon_and_disabled(self):
+    def test_home_resources_show_published_proceedings_and_disabled_report(self):
         response = self.client.get(reverse("home"))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "자료집 공개", count=1)
-        self.assertContains(response, "추후 공개 예정", count=2)
+        self.assertContains(response, "추후 공개 예정", count=1)
+        self.assertNotContains(response, "resource-status-badge")
         self.assertContains(response, 'resource-promo-card--disabled', count=1)
         self.assertContains(response, 'aria-disabled="true"', count=1)
         self.assertContains(response, "Generative AI Technology Innovation and User Safety")
         self.assertContains(response, "2026 동국대 &amp; 부경대 공동학술 세미나 자료집")
 
-    def test_footer_contains_nrf_logo(self):
+    def test_footer_uses_original_two_column_layout_without_nrf_logo(self):
         response = self.client.get(reverse("home"))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "images/nrf-logo.png")
-        self.assertContains(response, 'alt="한국연구재단 NRF"')
+        self.assertNotContains(response, "images/nrf-logo.png")
+        self.assertNotContains(response, 'alt="한국연구재단 NRF"')
 
     def test_json_content_is_valid(self):
         self.assertEqual(len(load_events("event")), 5)
