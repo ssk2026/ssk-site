@@ -40,6 +40,17 @@
             <div style="line-height:1.8; margin-top:25px;">
                 {{ notice.content_html|safe }}
             </div>
+
+            {% if notice.attachments %}
+            <div class="attachment-list notice-attachment-list">
+                <h4>첨부파일</h4>
+                <ul>
+                    {% for file in notice.attachments %}
+                    <li><a href="{{ file.url }}" download>{{ file.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
         </div>
     </div>
 </section>

@@ -14,9 +14,12 @@ class PublicSiteTests(SimpleTestCase):
     def test_home_resources_are_marked_as_coming_soon_and_disabled(self):
         response = self.client.get(reverse("home"))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "추후 공개 예정", count=4)
-        self.assertContains(response, 'resource-promo-card--disabled', count=2)
-        self.assertContains(response, 'aria-disabled="true"', count=2)
+        self.assertContains(response, "자료집 공개", count=1)
+        self.assertContains(response, "추후 공개 예정", count=2)
+        self.assertContains(response, 'resource-promo-card--disabled', count=1)
+        self.assertContains(response, 'aria-disabled="true"', count=1)
+        self.assertContains(response, "Generative AI Technology Innovation and User Safety")
+        self.assertContains(response, "2026 동국대 &amp; 부경대 공동학술 세미나 자료집")
 
     def test_footer_contains_nrf_logo(self):
         response = self.client.get(reverse("home"))
@@ -33,8 +36,22 @@ class PublicSiteTests(SimpleTestCase):
             sorted((item["event_date"] for item in briefings), reverse=True),
         )
         self.assertEqual(briefings[-1]["id"], 9)
-        self.assertEqual(load_notices(), [])
+        notices = load_notices()
+        self.assertEqual(len(notices), 1)
+        self.assertEqual(notices[0]["slug"], "2026-joint-seminar-proceedings")
+        self.assertEqual(len(notices[0]["attachments"]), 1)
         self.assertEqual(len(load_papers()), 1)
+
+    def test_notice_detail_exposes_proceedings_attachment(self):
+        response = self.client.get(
+            reverse("notice_detail", args=["2026-joint-seminar-proceedings"])
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "생성형 AI 기술혁신과 사용자 안전")
+        self.assertContains(
+            response,
+            "/media/events/files/2026-dongguk-pknu-joint-seminar-proceedings.pdf",
+        )
 
     def test_event_list_and_detail_use_json_content(self):
         list_response = self.client.get(reverse("events"))

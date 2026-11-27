@@ -280,3 +280,23 @@ content:
           media: event_images
           extensions: [jpg, jpeg, png, webp]
           rename: safe
+      - name: attachments
+        label: 첨부파일
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{name}"
+        fields:
+          - name: name
+            label: 표시 이름
+            type: string
+            required: true
+          - name: url
+            label: 파일
+            type: file
+            required: true
+            options:
+              media: attachments
+              categories: [document]
+              rename: safe

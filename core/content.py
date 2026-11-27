@@ -96,7 +96,12 @@ def load_notices():
     for notice in notices:
         notice.setdefault("author", "관리자")
         notice.setdefault("content_html", "")
+        notice.setdefault("attachments", [])
         notice.setdefault("published", True)
+        if not isinstance(notice["attachments"], list):
+            raise ImproperlyConfigured(
+                f"{notice['slug']}.json attachments must be an array"
+            )
     notices = [notice for notice in notices if notice.get("published", True)]
     return sorted(notices, key=lambda notice: notice["created_at"], reverse=True)
 
